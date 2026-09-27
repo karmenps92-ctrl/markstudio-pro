@@ -3380,5 +3380,124 @@ kbd {
   gap: 5px;
 }
 
+/* ========================================================
+   ESTILOS AVANZADOS PARA LOS 3 MODOS DE MARKDOWN
+   ======================================================== */
+
+/* 1. MODO DISCORD AVANZADO */
+.discord-text-content .discord-subtext {
+  font-size: 0.82rem;
+  color: #949ba4;
+  line-height: 1.35;
+  margin: 3px 0;
+  display: block;
+}
+
+.discord-text-content .discord-timestamp-badge {
+  background-color: #3f4147;
+  color: #dbdee1;
+  border-radius: 3px;
+  padding: 1px 6px;
+  font-size: 0.86rem;
+  display: inline-block;
+  cursor: pointer;
+  vertical-align: baseline;
+  transition: background-color 0.15s ease;
+  user-select: none;
+}
+
+.discord-text-content .discord-timestamp-badge:hover {
+  background-color: #4e5058;
+}
+
+.discord-text-content .discord-list {
+  margin: 4px 0 4px 20px;
+  padding: 0;
+  color: #dbdee1;
+}
+
+.discord-text-content .discord-list li {
+  margin: 2px 0;
+  line-height: 1.45;
+}
+
+/* Discord ANSI Colors */
+.discord-text-content .ansi-30 { color: #4e5058; }
+.discord-text-content .ansi-31 { color: #f23f43; font-weight: 500; }
+.discord-text-content .ansi-32 { color: #23a55a; font-weight: 500; }
+.discord-text-content .ansi-33 { color: #f0b232; font-weight: 500; }
+.discord-text-content .ansi-34 { color: #5865f2; font-weight: 500; }
+.discord-text-content .ansi-35 { color: #eb459e; font-weight: 500; }
+.discord-text-content .ansi-36 { color: #00a8fc; font-weight: 500; }
+.discord-text-content .ansi-37 { color: #ffffff; }
+.discord-text-content .ansi-bold { font-weight: 700; }
+.discord-text-content .ansi-underline { text-decoration: underline; }
+
+/* 2. MODO WHATSAPP AVANZADO */
+.whatsapp-bubble-content .wa-inline-code {
+  font-family: Consolas, 'Courier New', monospace;
+  background-color: rgba(255, 255, 255, 0.09);
+  padding: 1px 5px;
+  border-radius: 4px;
+  font-size: 0.9em;
+  color: #e9edef;
+  display: inline;
+}
+
+.whatsapp-bubble-content .wa-list {
+  margin: 4px 0 4px 18px;
+  padding: 0;
+  color: #e9edef;
+}
+
+.whatsapp-bubble-content .wa-list li {
+  margin: 3px 0;
+  line-height: 1.4;
+}
+
+/* 3. MODO UNIVERSAL (FOOTNOTES / NOTAS AL PIE) */
+.footnote-ref {
+  font-size: 0.75em;
+  vertical-align: super;
+  line-height: 0;
+  color: var(--accent);
+  text-decoration: none;
+  font-weight: 700;
+  padding: 0 2px;
+}
+
+.footnote-ref:hover {
+  text-decoration: underline;
+}
+
+.markdown-footnotes {
+  margin-top: 36px;
+  padding-top: 18px;
+  border-top: 1px solid var(--border-color);
+  font-size: 0.88rem;
+  color: var(--text-dim);
+}
+
+.markdown-footnotes ol {
+  padding-left: 22px;
+  margin: 8px 0;
+}
+
+.markdown-footnotes li {
+  margin: 6px 0;
+  line-height: 1.5;
+}
+
+.footnote-back {
+  color: var(--accent);
+  text-decoration: none;
+  margin-left: 6px;
+  font-weight: bold;
+}
+
+.footnote-back:hover {
+  text-decoration: underline;
+}
+
 
 

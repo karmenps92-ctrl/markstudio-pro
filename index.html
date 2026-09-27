@@ -92,6 +92,8 @@
       <div class="tool-group" data-platforms="discord" id="discord-specific-group" style="display: none;">
         <button class="tool-btn" data-action="spoiler" data-platforms="discord" title="Spoiler Discord (||secreto||)"><i data-lucide="eye-off"></i></button>
         <button class="tool-btn" data-action="underline" data-platforms="discord" title="Subrayado Discord (__texto__)"><i data-lucide="underline"></i></button>
+        <button class="tool-btn" data-action="subtext" data-platforms="discord" title="Subtexto Discord (-# texto)"><i data-lucide="type"></i></button>
+        <button class="tool-btn" data-action="timestamp" data-platforms="discord" title="Marca de Tiempo Dinámica (<t:...>)"><i data-lucide="clock"></i></button>
       </div>
 
       <div class="tool-separator"></div>
@@ -499,6 +501,18 @@
           <h4>Guía Universal de Markdown</h4>
           <p>Demostración completa de encabezados, alertas, listas, tablas, LaTeX, código y tareas.</p>
         </div>
+
+        <div class="template-card" data-template="discord-guide">
+          <div class="template-icon"><i data-lucide="message-square"></i></div>
+          <h4>Manual Completo Discord Markdown</h4>
+          <p>Spoilers, subtexto -#, marcas de tiempo unix &lt;t:...&gt;, subrayado, colores ANSI y citas.</p>
+        </div>
+
+        <div class="template-card" data-template="whatsapp-guide">
+          <div class="template-icon"><i data-lucide="phone"></i></div>
+          <h4>Manual Completo WhatsApp Markdown</h4>
+          <p>Negrita *texto*, cursiva _texto_, tachado ~texto~, monoespaciado, listas nativas y citas.</p>
+        </div>
       </div>
     </div>
   </div>
@@ -757,6 +771,11 @@
               <li><strong>Bloques con Copiado:</strong> <code>```js ... ```</code></li>
             </ul>
           </div>
+          <div style="grid-column: 1 / -1; display:flex; justify-content:center; margin-top: 10px;">
+            <button class="btn btn-primary" id="btn-load-universal-guide" style="padding: 10px 20px; font-weight: 600; display: inline-flex; align-items: center; gap: 8px;">
+              <i data-lucide="book-open"></i> Cargar Guía Universal en el Editor
+            </button>
+          </div>
         </div>
       </div>
 
@@ -768,6 +787,7 @@
             <ul>
               <li><strong>Spoilers Ocultos:</strong> <code>||texto confidencial||</code> (haz clic en la vista previa para revelarlo).</li>
               <li><strong>Subrayado:</strong> <code>__texto subrayado__</code></li>
+              <li><strong>Subtexto Diminuto:</strong> <code>-# texto en miniatura</code></li>
               <li><strong>Negrita Cursiva:</strong> <code>***texto destacado***</code></li>
               <li><strong>Encabezados:</strong> Soporta solo hasta nivel 3: <code># H1</code>, <code>## H2</code>, <code>### H3</code></li>
               <li><strong>Cita Multilínea:</strong> <code>>>> texto que abarca todo el mensaje</code></li>
@@ -781,8 +801,13 @@
               <li><strong>Coloreado de Código:</strong> <code>```py</code>, <code>```js</code>, <code>```html</code>, <code>```json</code></li>
               <li><strong>Timestamps Dinámicos:</strong> <code>&lt;t:1700000000:R&gt;</code> se adapta a la hora de cada miembro.</li>
               <li><strong>Menciones:</strong> <code>@usuario</code>, <code>#canal</code>, <code>@everyone</code></li>
-              <li><strong>Botón Copiar para Discord:</strong> En el menú exportar, copia directamente con formato listo para pegar en tu canal.</li>
+              <li><strong>Hipervínculos:</strong> <code>[Texto](https://...)</code> o suprimir embed <code>&lt;https://...&gt;</code></li>
             </ul>
+          </div>
+          <div style="grid-column: 1 / -1; display:flex; justify-content:center; margin-top: 10px;">
+            <button class="btn btn-primary" id="btn-load-discord-guide" style="padding: 10px 20px; font-weight: 600; display: inline-flex; align-items: center; gap: 8px; background: #5865f2; border-color: #5865f2;">
+              <i data-lucide="message-square"></i> Cargar Manual Completo de Discord en el Editor
+            </button>
           </div>
         </div>
       </div>
@@ -796,7 +821,8 @@
               <li><strong>Negrita:</strong> <code>*palabra*</code> <em>(¡Un solo asterisco!)</em></li>
               <li><strong>Cursiva:</strong> <code>_palabra_</code> <em>(Guiones bajos)</em></li>
               <li><strong>Tachado:</strong> <code>~palabra~</code> <em>(Una sola tilde)</em></li>
-              <li><strong>Monoespacio:</strong> <code>```código monoespaciado```</code></li>
+              <li><strong>Código en línea:</strong> <code>`código`</code></li>
+              <li><strong>Monoespacio bloque:</strong> <code>```texto monoespaciado```</code></li>
               <li><strong>Citas:</strong> <code>> Mensaje citado</code></li>
               <li><strong>Viñetas:</strong> <code>- Elemento</code> o <code>* Elemento</code></li>
               <li><strong>Numeradas:</strong> <code>1. Primero</code>, <code>2. Segundo</code></li>
@@ -811,6 +837,11 @@
               <li><strong>🚫 Sin Fórmulas ni Diagramas:</strong> Se recomienda exportar como imagen o texto enriquecido.</li>
               <li><strong>Botón Copiar para WhatsApp:</strong> Adapta el texto y lo copia directo al portapapeles.</li>
             </ul>
+          </div>
+          <div style="grid-column: 1 / -1; display:flex; justify-content:center; margin-top: 10px;">
+            <button class="btn btn-primary" id="btn-load-whatsapp-guide" style="padding: 10px 20px; font-weight: 600; display: inline-flex; align-items: center; gap: 8px; background: #00a884; border-color: #00a884;">
+              <i data-lucide="phone"></i> Cargar Manual Completo de WhatsApp en el Editor
+            </button>
           </div>
         </div>
       </div>

@@ -536,9 +536,238 @@ Markdown permite citar orígenes usando notas al pie[^1] numeradas o descriptiva
 
 [^1]: Creado originalmente en 2004 por John Gruber y Aaron Swartz.
 [^nota-larga]: Esta es una nota explicativa más extensa que se coloca automáticamente al final del documento con un enlace de retorno.
-
 [ref-web]: https://kramdown.gettalong.org/ "Referencia enlazada"
-`
+`,
+    'discord-guide': `Aquí tienes **todo** el Markdown y formato compatible en Discord, organizado por categorías:
+
+---
+
+### 1. Formato de Texto Básico
+
+| Efecto | Sintaxis | Ejemplo |
+| :--- | :--- | :--- |
+| **Cursiva** | \`*texto*\` o \`_texto_\` | *cursiva* |
+| **Negrita** | \`**texto**\` | **negrita** |
+| **Negrita + Cursiva** | \`***texto***\` | ***negrita y cursiva*** |
+| **Subrayado** | \`__texto__\` | <u>subrayado</u> |
+| **Subrayado + Cursiva** | \`__*texto*__\` | <u>*subrayado cursiva*</u> |
+| **Subrayado + Negrita** | \`__**texto**__\` | <u>**subrayado negrita**</u> |
+| **Subrayado + Negrita + Cursiva** | \`__***texto***__\` | <u>***todo junto***</u> |
+| **Tachado** | \`~~texto~~\` | ~~tachado~~ |
+
+---
+
+### 2. Spoilers (Ocultar contenido)
+
+Cubre el texto o imagen con una barra negra que se revela al hacer clic.
+
+* **Sintaxis:** \`||texto secreto||\`
+* **Ejemplo:** Al escribir \`El asesino es ||el mayordomo||\`, la palabra quedará oculta.
+* *Nota:* También puedes combinarlo con otros formatos: \`||**secreto en negrita**||\`.
+
+---
+
+### 3. Encabezados (Headers)
+
+Discord **solo admite hasta el nivel 3**. Es obligatorio dejar un espacio después de los \`#\`.
+
+* \`# Título Gigante (H1)\`
+* \`## Título Mediano (H2)\`
+* \`### Título Pequeño (H3)\`
+
+---
+
+### 4. Subtexto / Texto Diminuto
+
+Muestra texto en un tamaño muy pequeño y en tono gris (ideal para aclaraciones, notas al pie o créditos). Requiere un espacio después del guion y la almohadilla:
+
+* **Sintaxis:** \`-# Tu texto aquí\`
+* **Resultado:** Se muestra en tamaño miniatura al final del mensaje.
+
+---
+
+### 5. Citas (Quotes)
+
+* **Cita de una sola línea:**
+  Usa \`>\` seguido de un espacio.
+
+  \`\`\`text
+  > Esta línea es una cita.
+  Esta línea ya no lo es.
+  \`\`\`
+
+* **Cita multilínea / Bloque completo:**
+  Usa \`>>>\` seguido de un espacio. Todo lo que escribas a continuación (incluso con saltos de línea) será parte de la cita.
+
+  \`\`\`text
+  >>> Primera línea citada.
+  Segunda línea también citada.
+  Tercera línea también.
+  \`\`\`
+
+---
+
+### 6. Listas
+
+Discord admite listas ordenadas y desordenadas (puedes anidarlas usando tabulador o 2 espacios):
+
+* **Lista con viñetas:**
+
+  \`\`\`text
+  - Elemento 1
+  - Elemento 2
+    - Sub-elemento (con sangría)
+  * También funciona con asterisco
+  \`\`\`
+
+* **Lista numerada:**
+
+  \`\`\`text
+  1. Primer paso
+  2. Segundo paso
+  3. Tercer paso
+  \`\`\`
+
+---
+
+### 7. Bloques de Código y Sintaxis
+
+* **Código en línea:**
+  Encierra el texto entre dos comillas simples invertidas:  
+  \`\` \`código aquí\` \`\`
+
+* **Bloque de código multilínea:**
+  Encierra el código entre tres comillas invertidas:
+
+  \`\`\`\`text
+  \`\`\`
+  Este es un bloque
+  de varias líneas
+  \`\`\`
+  \`\`\`\`
+
+* **Bloque de código con coloreado de sintaxis:**
+  Discord soporta coloreado para lenguajes populares (\`js\`, \`py\`, \`html\`, \`css\`, \`json\`, \`cpp\`, \`diff\`, etc.):
+
+  \`\`\`\`text
+  \`\`\`python
+  def hola():
+      print("Hola Discord")
+  \`\`\`
+  \`\`\`\`
+
+* **Colores personalizados con \`ansi\`:**
+  Discord permite colorear texto dentro de bloques de código usando secuencias ANSI:
+
+  \`\`\`\`text
+  \`\`\`ansi
+  [31mTexto en rojo[0m
+  [32mTexto en verde[0m
+  [34mTexto en azul[0m
+  [33mTexto en amarillo[0m
+  \`\`\`
+  \`\`\`\`
+
+---
+
+### 8. Enlaces (Links)
+
+* **Enlace con máscara (Hipervínculo):**
+  Puedes ponerle texto a un link en mensajes normales:
+
+  \`\`\`text
+  [Haz clic aquí](https://discord.com)
+  \`\`\`
+
+* **Evitar la vista previa / Embed:**
+  Si quieres enviar un enlace sin que Discord genere el recuadro gigante de vista previa, enciérralo entre \`<\` y \`>\`:
+
+  \`\`\`text
+  <https://youtube.com>
+  \`\`\`
+
+---
+
+### 9. Marcas de Tiempo Dinámicas (Timestamps)
+
+No es Markdown estándar, pero es una sintaxis nativa de Discord. Convierte una fecha en la hora local de cada usuario que lee el mensaje usando el formato Unix (\`<t:TIMESTAMP:FORMATO>\`):
+
+| Sintaxis | Resultado |
+| :--- | :--- |
+| \`<t:1700000000:t>\` | Hora corta (ej: \`14:30\`) |
+| \`<t:1700000000:T>\` | Hora larga con segundos (ej: \`14:30:00\`) |
+| \`<t:1700000000:d>\` | Fecha corta (ej: \`14/11/2023\`) |
+| \`<t:1700000000:D>\` | Fecha larga (ej: \`14 de noviembre de 2023\`) |
+| \`<t:1700000000:f>\` | Fecha y hora corta |
+| \`<t:1700000000:F>\` | Día de la semana, fecha y hora completa |
+| \`<t:1700000000:R>\` | **Tiempo relativo** (ej: \`hace 2 horas\` o \`en 15 minutos\`) |
+
+---
+
+### 10. Escapar formato (Anular el Markdown)
+
+Si quieres mostrar un símbolo sin que Discord aplique formato (por ejemplo, mostrar asteriscos literales), coloca una barra invertida \`\\\` justo antes:
+
+* \`\\*Este texto no será cursiva\\*\`
+* \`\\# Este texto no será título\`
+* \`\\:\\)\` muestra \`:)\` sin convertirlo en emoji.
+`,
+    'whatsapp-guide': `Aquí tienes todo el formato y "Markdown" que soporta WhatsApp:
+
+1. Formato de Texto Básico
+Estilo Sintaxis Ejemplo a escribir Cómo se ve
+Negrita *texto* *Hola mundo* Hola mundo
+Cursiva *texto* *Hola mundo* Hola mundo
+Tachado ~texto~ (solo una virgulilla) ~Hola mundo~ Hola mundo
+Monoespaciado \`\`\`texto\`\`\` \`\`\`Hola mundo\`\`\` Hola mundo (tipo máquina de escribir)
+⚠️ Diferencia con Discord: En WhatsApp el tachado se hace con una sola virgulilla (~texto~), mientras que en Discord se usan dos (~~texto~~).
+2. Estructura y Organización de Texto
+WhatsApp incorporó soporte nativo para listas, citas y código:
+Listas con viñetas:
+Escribe un guion - o un asterisco * seguido de un espacio:
+code
+Text
+
+- Leche
+- Huevos
+- Pan
+(Al presionar Enter en el móvil, WhatsApp añade automáticamente la viñeta en la siguiente línea).
+Listas numeradas:
+Escribe el número seguido de un punto y un espacio:
+code
+Text
+
+1. Abrir la app
+2. Iniciar sesión
+3. Enviar mensaje
+Bloque de cita:
+Escribe el símbolo > seguido de un espacio:
+code
+Text
+
+> Esto es una cita destacada
+(Aparecerá con una barra vertical al inicio y sangría).
+Código en línea:
+Encierra una palabra o frase corta entre dos comillas invertidas simples:
+code
+Text
+\`código aquí\`
+1. Combinación de Formatos
+Puedes mezclar varios estilos a la vez siempre que cierres los símbolos en el orden inverso al que los abriste:
+Negrita + Cursiva: **Hola mundo**
+Negrita + Tachado: *~Hola mundo~*
+Cursiva + Tachado: *~Hola mundo~*
+Negrita + Cursiva + Tachado: **~Hola mundo~**
+(El monoespaciado \`\`\` no permite combinarse con otros estilos).
+2. Lo que WhatsApp NO soporta (a diferencia de Discord)
+❌ Encabezados: #, ## o ### no funcionan (se quedan como texto normal).
+❌ Spoilers: ||texto|| no existe en WhatsApp.
+❌ Hipervínculos personalizados (enlaces con máscara): No puedes hacer [Haz clic](https://...); solo puedes pegar la URL completa.
+❌ Subtexto: -# no funciona.
+❌ Tablas ni fórmulas matemáticas.
+💡 Atajo sin escribir símbolos:
+Si no recuerdas la sintaxis en tu teléfono móvil, simplemente mantén presionado el texto que acabas de escribir para seleccionarlo y pulsa en el menú emergente Formato (o los tres puntos ⋮) para elegir Negrita, Cursiva, Tachado o Monoespaciado.
+`,
   };
 
   // Estado reactivo de la aplicación
@@ -1098,6 +1327,18 @@ Markdown permite citar orígenes usando notas al pie[^1] numeradas o descriptiva
       return id;
     });
 
+    // 1.5 Preprocesar Notas al Pie [^1] y [^1]: texto
+    const footnotes = new Map();
+    processed = processed.replace(/^\[\^([^\]]+)\]:\s*([\s\S]*?)(?=\n\[\^|\n\n|$)/gm, (match, id, content) => {
+      footnotes.set(id.trim(), content.trim());
+      return '';
+    });
+
+    processed = processed.replace(/\[\^([^\]]+)\]/g, (match, id) => {
+      const cleanId = id.trim();
+      return `<sup><a href="#fn-${cleanId}" id="fnref-${cleanId}" class="footnote-ref">[${cleanId}]</a></sup>`;
+    });
+
     // 2. Parsear Markdown básico con Marked
     let html = marked.parse(processed);
 
@@ -1139,6 +1380,17 @@ Markdown permite citar orígenes usando notas al pie[^1] numeradas o descriptiva
         </div>
       `;
     });
+
+    // 4.5 Inyectar sección de notas al pie si existen
+    if (footnotes.size > 0) {
+      let fnHtml = '<div class="markdown-footnotes"><hr /><ol>';
+      footnotes.forEach((content, id) => {
+        const parsedContent = (window.marked && marked.parseInline) ? marked.parseInline(content) : content;
+        fnHtml += `<li id="fn-${id}">${parsedContent} <a href="#fnref-${id}" class="footnote-back" title="Regresar al texto">↩</a></li>`;
+      });
+      fnHtml += '</ol></div>';
+      html += fnHtml;
+    }
 
     // 5. Inyectar envoltorios estilizados a bloques de código con botón "Copiar"
     const tempContainer = document.createElement('div');
@@ -1251,40 +1503,67 @@ Markdown permite citar orígenes usando notas al pie[^1] numeradas o descriptiva
   function renderWhatsAppPreview(rawText) {
     previewContainer.className = 'preview-scroll-container platform-whatsapp';
 
-    // 1. Monospace en bloque ```texto``` de WhatsApp (sin tarjetas oscuras ni bordes: tipografía monoespaciada pura)
+    // 1. Monospace en bloque ```texto``` de WhatsApp
     const codeBlocks = [];
     let text = rawText.replace(/```([\s\S]*?)```/g, (m, code) => {
-      const id = `___WA_CODE_${codeBlocks.length}___`;
+      const id = `___WA_BLOCK_${codeBlocks.length}___`;
       codeBlocks.push(escapeHtml(code.trim()));
+      return id;
+    });
+
+    // 2. Código en línea simple `código`
+    const inlineCodes = [];
+    text = text.replace(/`([^`\n]+?)`/g, (m, code) => {
+      const id = `___WA_INLINE_${inlineCodes.length}___`;
+      inlineCodes.push(escapeHtml(code.trim()));
       return id;
     });
 
     let escaped = escapeHtml(text);
 
-    // 2. URLs -> Links de WhatsApp
+    // 3. URLs directas -> Links clickables
     escaped = escaped.replace(/(https?:\/\/[^\s<]+)/g, '<a href="$1" target="_blank" rel="noopener" class="wa-link">$1</a>');
 
-    // 3. Citas de WhatsApp: > texto o &gt; texto (agrupando líneas consecutivas con barra lateral verde)
+    // 4. Citas de WhatsApp: > texto o &gt; texto
     escaped = escaped.replace(/(?:^(?:&gt;|>)\s?.*(?:\r?\n|$))+/gm, (block) => {
       const lines = block.split(/\r?\n/).filter(l => l.trim().length > 0).map(l => l.replace(/^(?:&gt;|>)\s?/, ''));
       return `<blockquote class="wa-quote">${lines.join('<br>')}</blockquote>`;
     });
 
-    // 4. Negrita: *texto* (con o sin puntuación circundante)
-    escaped = escaped.replace(/(^|[\s(.,;:¡!¿?])\*([^\*\n]+?)\*($|[\s).,:;¡!¿?])/g, '$1<strong>$2</strong>$3');
+    // 5. Listas nativas de WhatsApp (viñetas con guión o asterisco, y numeradas)
+    escaped = escaped.replace(/(?:^[ \t]*[-*]\s+.+(?:\r?\n|$))+/gm, (block) => {
+      const items = block.split(/\r?\n/).filter(l => l.trim().length > 0).map(l => {
+        const itemText = l.replace(/^[ \t]*[-*]\s+/, '');
+        return `<li>${itemText}</li>`;
+      });
+      return `<ul class="wa-list">${items.join('')}</ul>`;
+    });
 
-    // 5. Cursiva: _texto_
-    escaped = escaped.replace(/(^|[\s(.,;:¡!¿?])\_([^\_\n]+?)\_($|[\s).,:;¡!¿?])/g, '$1<em>$2</em>$3');
+    escaped = escaped.replace(/(?:^[ \t]*\d+\.\s+.+(?:\r?\n|$))+/gm, (block) => {
+      const items = block.split(/\r?\n/).filter(l => l.trim().length > 0).map(l => {
+        const itemText = l.replace(/^[ \t]*\d+\.\s+/, '');
+        return `<li>${itemText}</li>`;
+      });
+      return `<ol class="wa-list">${items.join('')}</ol>`;
+    });
 
-    // 6. Tachado: ~texto~
-    escaped = escaped.replace(/(^|[\s(.,;:¡!¿?])\~([^\~\n]+?)\~($|[\s).,:;¡!¿?])/g, '$1<del>$2</del>');
+    // 6. Formatos básicos y combinaciones (*negrita*, _cursiva_, ~tachado~)
+    // Múltiples pasadas para permitir anidación como *_negrita cursiva_* o *~negrita tachado~*
+    for (let i = 0; i < 3; i++) {
+      escaped = escaped.replace(/(^|[\s(.,;:¡!¿?>])\*([^\*\n]+?)\*($|[\s).,:;¡!¿?<])/g, '$1<strong>$2</strong>$3');
+      escaped = escaped.replace(/(^|[\s(.,;:¡!¿?>])\_([^\_\n]+?)\_($|[\s).,:;¡!¿?<])/g, '$1<em>$2</em>$3');
+      escaped = escaped.replace(/(^|[\s(.,;:¡!¿?>])\~([^\~\n]+?)\~($|[\s).,:;¡!¿?<])/g, '$1<del>$2</del>$3');
+    }
 
     // 7. Saltos de línea
     escaped = escaped.replace(/\n/g, '<br>');
 
-    // 8. Restaurar bloques de código como monospace nativo de WhatsApp
+    // 8. Restaurar código en línea y bloques monospace
+    inlineCodes.forEach((ic, idx) => {
+      escaped = escaped.replace(`___WA_INLINE_${idx}___`, `<span class="wa-inline-code">${ic}</span>`);
+    });
     codeBlocks.forEach((cb, idx) => {
-      escaped = escaped.replace(`___WA_CODE_${idx}___`, `<span class="wa-monospace">${cb}</span>`);
+      escaped = escaped.replace(`___WA_BLOCK_${idx}___`, `<span class="wa-monospace">${cb}</span>`);
     });
 
     const now = new Date();
@@ -1302,7 +1581,6 @@ Markdown permite citar orígenes usando notas al pie[^1] numeradas o descriptiva
 
     preview.innerHTML = `
       <div class="whatsapp-chat-wrapper">
-        <!-- Barra Superior WhatsApp (Android Dark - Fiel a tu captura) -->
         <div class="whatsapp-chat-header">
           <div class="whatsapp-header-left">
             <div class="whatsapp-header-avatar">
@@ -1333,7 +1611,6 @@ Markdown permite citar orígenes usando notas al pie[^1] numeradas o descriptiva
           </div>
         </div>
 
-        <!-- Área de Conversación con Fondo de Doodles -->
         <div class="whatsapp-chat-body">
           <div class="whatsapp-date-pill">${dateFormatted}</div>
           
@@ -1347,13 +1624,13 @@ Markdown permite citar orígenes usando notas al pie[^1] numeradas o descriptiva
               </svg>
             </button>
             <div class="whatsapp-bubble">
-              <div class="whatsapp-bubble-content">${escaped || '<em>Escribe un mensaje para WhatsApp... (*negrita*, _cursiva_, ~tachado~, \`\`\`monospace\`\`\`, > cita)</em>'}</div>
+              <div class="whatsapp-bubble-content">${escaped || '<em>Escribe un mensaje para WhatsApp... (*negrita*, _cursiva_, ~tachado~, ```monospace```, > cita)</em>'}</div>
               <div class="whatsapp-bubble-footer">
                 <span class="whatsapp-time">${timeFormatted}</span>
-                <span class="whatsapp-check" title="Leído">
-                  <svg viewBox="0 0 16 11" width="16" height="11" fill="none" stroke="#53bdeb" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M1.2 6.2l3.6 3.4L11.2 1.8"/>
-                    <path d="M5.4 6.2l3.6 3.4L15.2 1.8"/>
+                <span class="whatsapp-check">
+                  <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="1.5 12.5 6 17 14.5 7.5"/>
+                    <polyline points="9.5 12.5 13 16 20.5 7.5"/>
                   </svg>
                 </span>
               </div>
@@ -1361,16 +1638,10 @@ Markdown permite citar orígenes usando notas al pie[^1] numeradas o descriptiva
           </div>
         </div>
 
-        <!-- Barra Inferior de Entrada (Android idéntica a tu captura) -->
         <div class="whatsapp-chat-footer">
           <div class="whatsapp-input-pill">
-            <button class="whatsapp-input-icon whatsapp-clip-btn" title="Adjuntar archivo">
-              <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="transform: rotate(45deg);">
-                <path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"/>
-              </svg>
-            </button>
-            <button class="whatsapp-input-icon" title="Emojis y stickers">
-              <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <button class="whatsapp-input-icon" title="Emojis">
+              <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2">
                 <circle cx="12" cy="12" r="10"/>
                 <path d="M8 14s1.5 2 4 2 4-2 4-2"/>
                 <line x1="9" y1="9" x2="9.01" y2="9"/>
@@ -1379,15 +1650,25 @@ Markdown permite citar orígenes usando notas al pie[^1] numeradas o descriptiva
             </button>
             <div class="whatsapp-input-placeholder">
               <span class="whatsapp-cursor"></span>
-              <span class="whatsapp-placeholder-text">Escribe un mensaje</span>
+              <span class="whatsapp-placeholder-text">Mensaje</span>
             </div>
+            <button class="whatsapp-input-icon" title="Adjuntar">
+              <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="m21.44 11.05-9.19 9.19a6 6 0 0 1-8.49-8.49l8.57-8.57A4 4 0 1 1 18 8.84l-8.59 8.57a2 2 0 0 1-2.83-2.83l7.88-7.87"/>
+              </svg>
+            </button>
+            <button class="whatsapp-input-icon" title="Cámara">
+              <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/>
+                <circle cx="12" cy="13" r="3"/>
+              </svg>
+            </button>
           </div>
-          <button class="whatsapp-mic-btn" title="Mensaje de voz">
-            <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/>
+          <button class="whatsapp-mic-btn" title="Grabar mensaje de voz">
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/>
               <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
-              <line x1="12" y1="19" x2="12" y2="23"/>
-              <line x1="8" y1="23" x2="16" y2="23"/>
+              <line x1="12" y1="19" x2="12" y2="22"/>
             </svg>
           </button>
         </div>
@@ -1400,75 +1681,198 @@ Markdown permite citar orígenes usando notas al pie[^1] numeradas o descriptiva
     indicateSaving(false);
   }
 
-  // ========================================================
-  // RENDERIZADOR SIMULADOR DE CANAL DISCORD
-  // ========================================================
+  
+  function formatDiscordTimestamp(unixSec, style) {
+    style = style || 'f';
+    const date = new Date(parseInt(unixSec, 10) * 1000);
+    if (isNaN(date.getTime())) return `<span class="discord-timestamp-badge">&lt;t:${unixSec}&gt;</span>`;
+
+    const now = new Date();
+    const diffSec = Math.round((date.getTime() - now.getTime()) / 1000);
+
+    const months = ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'];
+    const days = ['domingo', 'lunes', 'martes', 'miércoles', 'jueves', 'viernes', 'sábado'];
+
+    const timeStr = `${String(date.getHours()).padStart(2, '0')}:${String(date.getMinutes()).padStart(2, '0')}`;
+    const longTimeStr = `${timeStr}:${String(date.getSeconds()).padStart(2, '0')}`;
+    const shortDate = `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}`;
+    const longDate = `${date.getDate()} de ${months[date.getMonth()]} de ${date.getFullYear()}`;
+    const fullDate = `${days[date.getDay()]}, ${longDate} ${timeStr}`;
+
+    let label = '';
+    switch (style) {
+      case 't': label = timeStr; break;
+      case 'T': label = longTimeStr; break;
+      case 'd': label = shortDate; break;
+      case 'D': label = longDate; break;
+      case 'f': label = `${longDate} ${timeStr}`; break;
+      case 'F': label = fullDate; break;
+      case 'R': {
+        const absDiff = Math.abs(diffSec);
+        let rel = '';
+        if (absDiff < 60) rel = `${absDiff} segundos`;
+        else if (absDiff < 3600) rel = `${Math.floor(absDiff / 60)} minutos`;
+        else if (absDiff < 86400) rel = `${Math.floor(absDiff / 3600)} horas`;
+        else rel = `${Math.floor(absDiff / 86400)} días`;
+        label = diffSec < 0 ? `hace ${rel}` : `en ${rel}`;
+        break;
+      }
+      default: label = `${longDate} ${timeStr}`; break;
+    }
+
+    return `<span class="discord-timestamp-badge" title="${fullDate}">${label}</span>`;
+  }
+
+  
+  function parseAnsiToHtml(ansiText) {
+    let output = ansiText
+      .replace(/\x1b\[30m| \x1b\[30m| \u001b\[30m| \x1b\[30m| \x1b\[30m/g, '<span class="ansi-30">')
+      .replace(/\x1b\[31m| \u001b\[31m/g, '<span class="ansi-31">')
+      .replace(/\x1b\[32m| \u001b\[32m/g, '<span class="ansi-32">')
+      .replace(/\x1b\[33m| \u001b\[33m/g, '<span class="ansi-33">')
+      .replace(/\x1b\[34m| \u001b\[34m/g, '<span class="ansi-34">')
+      .replace(/\x1b\[35m| \u001b\[35m/g, '<span class="ansi-35">')
+      .replace(/\x1b\[36m| \u001b\[36m/g, '<span class="ansi-36">')
+      .replace(/\x1b\[37m| \u001b\[37m/g, '<span class="ansi-37">')
+      .replace(/\x1b\[1m| \u001b\[1m/g, '<span class="ansi-bold">')
+      .replace(/\x1b\[4m| \u001b\[4m/g, '<span class="ansi-underline">')
+      .replace(/\x1b\[0m| \u001b\[0m/g, '</span>');
+
+    // Also support visual representation shown in guides like [31m...[0m
+    output = output
+      .replace(/\[30m/g, '<span class="ansi-30">')
+      .replace(/\[31m/g, '<span class="ansi-31">')
+      .replace(/\[32m/g, '<span class="ansi-32">')
+      .replace(/\[33m/g, '<span class="ansi-33">')
+      .replace(/\[34m/g, '<span class="ansi-34">')
+      .replace(/\[35m/g, '<span class="ansi-35">')
+      .replace(/\[36m/g, '<span class="ansi-36">')
+      .replace(/\[37m/g, '<span class="ansi-37">')
+      .replace(/\[1m/g, '<span class="ansi-bold">')
+      .replace(/\[4m/g, '<span class="ansi-underline">')
+      .replace(/\[0m/g, '</span>');
+
+    return output;
+  }
+
+
   function renderDiscordPreview(rawText) {
     previewContainer.className = 'preview-scroll-container platform-discord';
 
-    let escaped = escapeHtml(rawText);
-
     // 1. Bloques de código ```lang ... ```
     const codeBlocks = [];
-    escaped = escaped.replace(/```([a-zA-Z0-9_-]*)\n?([\s\S]*?)```/g, (m, lang, code) => {
+    let text = rawText.replace(/```([a-zA-Z0-9_-]*)\n?([\s\S]*?)```/g, (m, lang, code) => {
       const id = `___DISCORD_BLOCK_${codeBlocks.length}___`;
-      const highlighted = (lang && hljs.getLanguage(lang))
-        ? hljs.highlight(code, { language: lang, ignoreIllegals: true }).value
-        : hljs.highlightAuto(code).value;
+      let highlighted = '';
+      if (lang && lang.toLowerCase() === 'ansi') {
+        highlighted = parseAnsiToHtml(escapeHtml(code.trim()));
+      } else if (lang && hljs.getLanguage(lang)) {
+        highlighted = hljs.highlight(code, { language: lang, ignoreIllegals: true }).value;
+      } else {
+        highlighted = hljs.highlightAuto(code).value;
+      }
       codeBlocks.push(`<pre><code class="hljs">${highlighted}</code></pre>`);
       return id;
     });
 
     // 2. Código inline `code`
-    escaped = escaped.replace(/`([^`\n]+?)`/g, (m, c) => `<code>${c}</code>`);
+    const inlineCodes = [];
+    text = text.replace(/`([^`\n]+?)`/g, (m, c) => {
+      const id = `___DISCORD_INLINE_${inlineCodes.length}___`;
+      inlineCodes.push(`<code>${escapeHtml(c)}</code>`);
+      return id;
+    });
 
-    // 3. Spoilers ||secreto||
-    escaped = escaped.replace(/\|\|([\s\S]+?)\|\|/g, '<span class="discord-spoiler" title="Clic para revelar spoiler">$1</span>');
+    let escaped = escapeHtml(text);
 
-    // 4. Subrayado __texto__
-    escaped = escaped.replace(/__([^_]+?)__/g, '<u>$1</u>');
+    // 3. Proteger escapes con barra invertida (ej: \*, \#, \~)
+    const escapedChars = [];
+    escaped = escaped.replace(/\\([*_~#\[\]()|<>:-])/g, (m, char) => {
+      const id = `___DISCORD_ESC_${escapedChars.length}___`;
+      escapedChars.push(char);
+      return id;
+    });
 
-    // 5. Negrita cursiva ***texto***
-    escaped = escaped.replace(/\*\*\*([^\*\n]+?)\*\*\*/g, '<strong><em>$1</em></strong>');
+    // 4. Subtexto Discord: -# texto
+    escaped = escaped.replace(/^-#\s+(.+)$/gm, '<div class="discord-subtext">$1</div>');
 
-    // 6. Negrita **texto**
-    escaped = escaped.replace(/\*\*([^\*\n]+?)\*\*/g, '<strong>$1</strong>');
+    // 5. Marcas de Tiempo Dinámicas: <t:1700000000:R> o &lt;t:1700000000:R&gt;
+    escaped = escaped.replace(/(?:<|&lt;)t:(\d+)(?::([a-zA-Z]))?(?:>|&gt;)/g, (m, unixSec, style) => {
+      return formatDiscordTimestamp(unixSec, style);
+    });
 
-    // 7. Cursiva *texto*
-    escaped = escaped.replace(/\*([^\*\n]+?)\*/g, '<em>$1</em>');
+    // 6. Hipervínculos personalizados [texto](url) y URLs con embed suprimido <url>
+    escaped = escaped.replace(/\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)/g, '<a href="$2" target="_blank" rel="noopener">$1</a>');
+    escaped = escaped.replace(/(?:<|&lt;)(https?:\/\/[^\s>&]+)(?:>|&gt;)/g, '<a href="$1" target="_blank" rel="noopener">$1</a>');
+    escaped = escaped.replace(/(^|[\s(])(https?:\/\/[^\s<]+)/g, '$1<a href="$2" target="_blank" rel="noopener">$2</a>');
 
-    // 8. Tachado ~~texto~~
-    escaped = escaped.replace(/~~([^~\n]+?)~~/g, '<del>$1</del>');
-
-    // 9. Menciones @everyone, @here, @usuario
-    escaped = escaped.replace(/@everyone/g, '<span class="discord-mention">@everyone</span>');
-    escaped = escaped.replace(/@here/g, '<span class="discord-mention">@here</span>');
-    escaped = escaped.replace(/(^|[\s(.,;:¡!¿?])@([a-zA-Z0-9_\-]+)/g, '$1<span class="discord-mention">@$2</span>');
-
-    // 10. Canales #general
-    escaped = escaped.replace(/(^|[\s(.,;:¡!¿?])#([a-zA-Z0-9_\-]+)/g, '$1<span class="discord-channel-mention"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><line x1="4" y1="9" x2="20" y2="9"/><line x1="4" y1="15" x2="20" y2="15"/><line x1="10" y1="3" x2="8" y2="21"/><line x1="16" y1="3" x2="14" y2="21"/></svg>$2</span>');
-
-    // 11. Encabezados Discord (# H1, ## H2, ### H3)
-    escaped = escaped.replace(/^### (.*)$/gm, '<h3 style="font-size:1.05rem;margin:6px 0;color:#f2f3f5;font-weight:700;">$1</h3>');
-    escaped = escaped.replace(/^## (.*)$/gm, '<h2 style="font-size:1.25rem;margin:8px 0;color:#f2f3f5;font-weight:700;">$1</h2>');
-    escaped = escaped.replace(/^# (.*)$/gm, '<h1 style="font-size:1.45rem;margin:10px 0;color:#f2f3f5;font-weight:700;">$1</h1>');
-
-    // 12. Citas Discord: >>> cita multilínea o > cita simple (manejando > y &gt; y unificando líneas)
+    // 7. Citas Discord: >>> cita multilínea o > cita simple
     escaped = escaped.replace(/^(?:&gt;|>){3}\s*([\s\S]*)$/gm, '<blockquote class="discord-quote">$1</blockquote>');
     escaped = escaped.replace(/(?:^(?:&gt;|>)\s?.*(?:\r?\n|$))+/gm, (block) => {
       const lines = block.split(/\r?\n/).filter(l => l.trim().length > 0).map(l => l.replace(/^(?:&gt;|>)\s?/, ''));
       return `<blockquote class="discord-quote">${lines.join('<br>')}</blockquote>`;
     });
 
-    // 13. Enlaces URL automáticos
-    escaped = escaped.replace(/(https?:\/\/[^\s<]+)/g, '<a href="$1" target="_blank" rel="noopener">$1</a>');
+    // 8. Listas Discord (viñetas con sangría y ordenadas)
+    escaped = escaped.replace(/(?:^[ \t]*[-*]\s+.+(?:\r?\n|$))+/gm, (block) => {
+      const items = block.split(/\r?\n/).filter(l => l.trim().length > 0).map(l => {
+        const itemText = l.replace(/^[ \t]*[-*]\s+/, '');
+        return `<li>${itemText}</li>`;
+      });
+      return `<ul class="discord-list">${items.join('')}</ul>`;
+    });
 
-    // 14. Saltos de línea
+    escaped = escaped.replace(/(?:^[ \t]*\d+\.\s+.+(?:\r?\n|$))+/gm, (block) => {
+      const items = block.split(/\r?\n/).filter(l => l.trim().length > 0).map(l => {
+        const itemText = l.replace(/^[ \t]*\d+\.\s+/, '');
+        return `<li>${itemText}</li>`;
+      });
+      return `<ol class="discord-list">${items.join('')}</ol>`;
+    });
+
+    // 9. Encabezados Discord (# H1, ## H2, ### H3)
+    escaped = escaped.replace(/^### (.*)$/gm, '<h3 style="font-size:1.05rem;margin:6px 0;color:#f2f3f5;font-weight:700;">$1</h3>');
+    escaped = escaped.replace(/^## (.*)$/gm, '<h2 style="font-size:1.25rem;margin:8px 0;color:#f2f3f5;font-weight:700;">$1</h2>');
+    escaped = escaped.replace(/^# (.*)$/gm, '<h1 style="font-size:1.45rem;margin:10px 0;color:#f2f3f5;font-weight:700;">$1</h1>');
+
+    // 10. Spoilers ||secreto||
+    escaped = escaped.replace(/\|\|([\s\S]+?)\|\|/g, '<span class="discord-spoiler" title="Clic para revelar spoiler">$1</span>');
+
+    // 11. Subrayado anidado con Negrita y Cursiva
+    escaped = escaped.replace(/__\*\*\*([^\*\n]+?)\*\*\*__/g, '<u><strong><em>$1</em></strong></u>');
+    escaped = escaped.replace(/__\*\*([^\*\n]+?)\*\*__/g, '<u><strong>$1</strong></u>');
+    escaped = escaped.replace(/__\*([^\*\n]+?)\*__/g, '<u><em>$1</em></u>');
+    escaped = escaped.replace(/__([^_\n]+?)__/g, '<u>$1</u>');
+
+    // 12. Negrita y Cursiva Discord
+    escaped = escaped.replace(/\*\*\*([^\*\n]+?)\*\*\*/g, '<strong><em>$1</em></strong>');
+    escaped = escaped.replace(/\*\*([^\*\n]+?)\*\*/g, '<strong>$1</strong>');
+    escaped = escaped.replace(/\*([^\*\n]+?)\*/g, '<em>$1</em>');
+    escaped = escaped.replace(/(^|[\s(.,;:¡!¿?>])\_([^\_\n]+?)\_($|[\s).,:;¡!¿?<])/g, '$1<em>$2</em>$3');
+
+    // 13. Tachado ~~texto~~
+    escaped = escaped.replace(/~~([^~\n]+?)~~/g, '<del>$1</del>');
+
+    // 14. Menciones @everyone, @here, @usuario y canales #general
+    escaped = escaped.replace(/@everyone/g, '<span class="discord-mention">@everyone</span>');
+    escaped = escaped.replace(/@here/g, '<span class="discord-mention">@here</span>');
+    escaped = escaped.replace(/(^|[\s(.,;:¡!¿?])@([a-zA-Z0-9_\-]+)/g, '$1<span class="discord-mention">@$2</span>');
+    escaped = escaped.replace(/(^|[\s(.,;:¡!¿?])#([a-zA-Z0-9_\-]+)/g, '$1<span class="discord-channel-mention"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><line x1="4" y1="9" x2="20" y2="9"/><line x1="4" y1="15" x2="20" y2="15"/><line x1="10" y1="3" x2="8" y2="21"/><line x1="16" y1="3" x2="14" y2="21"/></svg>$2</span>');
+
+    // 15. Saltos de línea
     escaped = escaped.replace(/\n/g, '<br>');
 
-    // Restaurar bloques de código
+    // 16. Restaurar inline code y bloques de código
+    inlineCodes.forEach((ic, idx) => {
+      escaped = escaped.replace(`___DISCORD_INLINE_${idx}___`, ic);
+    });
     codeBlocks.forEach((cb, idx) => {
       escaped = escaped.replace(`___DISCORD_BLOCK_${idx}___`, cb);
+    });
+
+    // 17. Restaurar caracteres escapados
+    escapedChars.forEach((ec, idx) => {
+      escaped = escaped.replace(`___DISCORD_ESC_${idx}___`, ec);
     });
 
     const months = ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'];
@@ -1478,7 +1882,6 @@ Markdown permite citar orígenes usando notas al pie[^1] numeradas o descriptiva
 
     preview.innerHTML = `
       <div class="discord-wrapper">
-        <!-- Barra Superior de Canal Discord (Fidedigna a Discord Desktop) -->
         <div class="discord-header">
           <div class="discord-header-left">
             <span class="discord-hash-icon">
@@ -1503,9 +1906,11 @@ Markdown permite citar orígenes usando notas al pie[^1] numeradas o descriptiva
                 <line x1="16.24" y1="16.24" x2="19.07" y2="19.07"/>
                 <line x1="2" y1="12" x2="6" y2="12"/>
                 <line x1="18" y1="12" x2="22" y2="12"/>
+                <line x1="4.93" y1="19.07" x2="7.76" y2="16.24"/>
+                <line x1="16.24" y1="7.76" x2="19.07" y2="4.93"/>
               </svg>
             </button>
-            <button class="discord-header-btn" title="Ajustes de notificaciones">
+            <button class="discord-header-btn" title="Notificaciones">
               <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
                 <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
@@ -1514,7 +1919,7 @@ Markdown permite citar orígenes usando notas al pie[^1] numeradas o descriptiva
             <button class="discord-header-btn" title="Mensajes fijados">
               <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <line x1="12" y1="17" x2="12" y2="22"/>
-                <path d="M5 17h14v-1.76a2 2 0 0 0-1.11-1.79l-1.78-.9A2 2 0 0 1 15 10.76V6h1a1 1 0 0 0 0-2H8a1 1 0 0 0 0 2h1v4.76a2 2 0 0 1-1.11 1.79l-1.78.9A2 2 0 0 0 5 15.24Z"/>
+                <path d="M5 17h14v-1.76a2 2 0 0 0-1.11-1.79l-1.78-.9A2 2 0 0 1 15 10.76V6h1a2 2 0 0 0 0-4H8a2 2 0 0 0 0 4h1v4.76a2 2 0 0 1-1.11 1.79l-1.78.9A2 2 0 0 0 5 15.24Z"/>
               </svg>
             </button>
             <button class="discord-header-btn" title="Lista de miembros">
@@ -1525,37 +1930,25 @@ Markdown permite citar orígenes usando notas al pie[^1] numeradas o descriptiva
                 <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
               </svg>
             </button>
-            <div class="discord-search-box" title="Buscar en canal">
+            <div class="discord-search-box">
               <span>Buscar</span>
               <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
                 <circle cx="11" cy="11" r="8"/>
                 <line x1="21" y1="21" x2="16.65" y2="16.65"/>
               </svg>
             </div>
-            <button class="discord-header-btn" title="Bandeja de entrada">
-              <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <polyline points="22 12 16 12 14 15 10 15 8 12 2 12"/>
-                <path d="M5.45 5.11L2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"/>
-              </svg>
-            </button>
           </div>
         </div>
 
-        <!-- Área de Conversación -->
         <div class="discord-body-area">
           <div class="discord-divider">
             <span class="discord-divider-pill">${dateStr}</span>
           </div>
 
           <div class="discord-msg-item">
-            <!-- Barra flotante de reacciones rápidas al hacer hover -->
             <div class="discord-hover-bar">
-              <button class="discord-hover-btn" title="Reaccionar con pulgar arriba">👍</button>
-              <button class="discord-hover-btn" title="Reaccionar con corazón">❤️</button>
-              <button class="discord-hover-btn" title="Reaccionar con fuego">🔥</button>
-              <button class="discord-hover-btn" title="Reaccionar con cohete">🚀</button>
               <button class="discord-hover-btn" title="Añadir reacción">
-                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
                   <circle cx="12" cy="12" r="10"/>
                   <path d="M8 14s1.5 2 4 2 4-2 4-2"/>
                   <line x1="9" y1="9" x2="9.01" y2="9"/>
@@ -1563,13 +1956,13 @@ Markdown permite citar orígenes usando notas al pie[^1] numeradas o descriptiva
                 </svg>
               </button>
               <button class="discord-hover-btn" title="Responder">
-                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
-                  <polyline points="9 14 4 9 9 4"/>
-                  <path d="M20 20v-7a4 4 0 0 0-4-4H4"/>
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
+                  <polyline points="9 17 4 12 9 7"/>
+                  <path d="M20 18v-2a4 4 0 0 0-4-4H4"/>
                 </svg>
               </button>
               <button class="discord-hover-btn" title="Más">
-                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
                   <circle cx="12" cy="12" r="1"/>
                   <circle cx="19" cy="12" r="1"/>
                   <circle cx="5" cy="12" r="1"/>
@@ -1577,48 +1970,46 @@ Markdown permite citar orígenes usando notas al pie[^1] numeradas o descriptiva
               </button>
             </div>
 
-            <!-- Avatar de Discord Clyde con indicador en línea -->
             <div class="discord-avatar-wrapper">
               <img src="discord-avatar.svg" alt="Avatar" class="discord-avatar-img" />
-              <div class="discord-status-dot" title="En línea"></div>
+              <div class="discord-status-dot online"></div>
             </div>
 
-            <!-- Detalle del Mensaje -->
             <div class="discord-msg-detail">
               <div class="discord-user-header">
-                <span class="discord-author-name">MarkStudio</span>
+                <span class="discord-author-name">Alex Dev</span>
                 <span class="discord-bot-badge">
-                  <svg viewBox="0 0 16 16" width="10" height="10" fill="currentColor">
-                    <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"/>
+                  <svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="3">
+                    <polyline points="20 6 9 17 4 12"/>
                   </svg>
-                  APP
+                  BOT
                 </span>
-                <span class="discord-timestamp">Hoy a las ${timeStr}</span>
+                <span class="discord-timestamp">hoy a las ${timeStr}</span>
               </div>
-              <div class="discord-text-content">
-                ${escaped || '<em>Escribe un mensaje para Discord... (prueba **negrita**, *cursiva*, __subrayado__, ||spoilers||, @everyone)</em>'}
-              </div>
-              
-              <!-- Fila de Reacciones -->
+
+              <div class="discord-text-content">${escaped || '<em>Escribe un mensaje en Markdown para Discord...</em>'}</div>
+
               <div class="discord-reactions-row">
-                <div class="discord-reaction-pill active" title="1 persona ha reaccionado">
-                  <span class="emoji">🚀</span> <span class="count">1</span>
+                <div class="discord-reaction-pill active" title="Reaccionado con 🚀">
+                  <span class="emoji">🚀</span>
+                  <span class="count">4</span>
                 </div>
-                <div class="discord-reaction-pill" title="1 persona ha reaccionado">
-                  <span class="emoji">✨</span> <span class="count">1</span>
+                <div class="discord-reaction-pill" title="Reaccionado con ✨">
+                  <span class="emoji">✨</span>
+                  <span class="count">2</span>
                 </div>
               </div>
             </div>
           </div>
         </div>
 
-        <!-- Barra Inferior de Entrada (Discord Desktop) -->
         <div class="discord-footer">
           <div class="discord-input-box">
-            <button class="discord-attach-btn" title="Adjuntar archivos o invitar">
-              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                <line x1="12" y1="5" x2="12" y2="19"/>
-                <line x1="5" y1="12" x2="19" y2="12"/>
+            <button class="discord-attach-btn" title="Subir archivo (+)">
+              <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10"/>
+                <line x1="12" y1="8" x2="12" y2="16"/>
+                <line x1="8" y1="12" x2="16" y2="12"/>
               </svg>
             </button>
             <div class="discord-input-placeholder">
@@ -1626,28 +2017,16 @@ Markdown permite citar orígenes usando notas al pie[^1] numeradas o descriptiva
               <span>Enviar mensaje a #general</span>
             </div>
             <div class="discord-input-actions">
-              <button class="discord-action-icon" title="Mejorar con Nitro / Regalo">
+              <button class="discord-action-icon" title="Comprar Nitro de regalo">
                 <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2">
-                  <polyline points="20 12 20 22 4 22 4 12"/>
-                  <rect x="2" y="7" width="20" height="5"/>
-                  <line x1="12" y1="22" x2="12" y2="7"/>
-                  <path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/>
-                  <path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/>
+                  <rect x="2" y="7" width="20" height="14" rx="2" ry="2"/>
+                  <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/>
                 </svg>
               </button>
-              <button class="discord-action-icon" title="Abrir selector de GIF">
+              <button class="discord-action-icon" title="Seleccionar GIF">
                 <span class="discord-gif-badge">GIF</span>
               </button>
-              <button class="discord-action-icon" title="Pegatinas">
-                <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2">
-                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
-                  <polyline points="14 2 14 8 20 8"/>
-                  <circle cx="10" cy="13" r="1"/>
-                  <circle cx="14" cy="13" r="1"/>
-                  <path d="M10 17a3.5 3.5 0 0 0 4 0"/>
-                </svg>
-              </button>
-              <button class="discord-action-icon" title="Seleccionar emoji">
+              <button class="discord-action-icon" title="Abrir selector de emojis">
                 <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2">
                   <circle cx="12" cy="12" r="10"/>
                   <path d="M8 14s1.5 2 4 2 4-2 4-2"/>
@@ -1661,75 +2040,19 @@ Markdown permite citar orígenes usando notas al pie[^1] numeradas o descriptiva
       </div>
     `;
 
-    // Interactividad de spoilers: clic para revelar / ocultar
+    // Interactividad en Spoilers de Discord
     preview.querySelectorAll('.discord-spoiler').forEach(sp => {
-      sp.addEventListener('click', () => {
+      sp.addEventListener('click', (e) => {
+        e.stopPropagation();
         sp.classList.toggle('revealed');
       });
     });
 
-    // Interactividad de píldoras de reacción
-    preview.querySelectorAll('.discord-reaction-pill').forEach(pill => {
-      pill.addEventListener('click', () => {
-        pill.classList.toggle('active');
-        const countSpan = pill.querySelector('.count');
-        if (countSpan) {
-          const current = parseInt(countSpan.textContent, 10) || 1;
-          countSpan.textContent = pill.classList.contains('active') ? current + 1 : Math.max(1, current - 1);
-        }
-      });
-    });
-
-    // Interactividad de botones de la barra flotante de hover para añadir reacción
-    preview.querySelectorAll('.discord-hover-btn').forEach(btn => {
-      btn.addEventListener('click', () => {
-        const emoji = btn.textContent.trim();
-        if (emoji && emoji.length <= 2) {
-          const row = preview.querySelector('.discord-reactions-row');
-          if (row) {
-            const newPill = document.createElement('div');
-            newPill.className = 'discord-reaction-pill active';
-            newPill.innerHTML = `<span class="emoji">${emoji}</span> <span class="count">1</span>`;
-            newPill.addEventListener('click', () => newPill.classList.toggle('active'));
-            row.appendChild(newPill);
-          }
-        }
-      });
-    });
-
+    lucide.createIcons({ root: preview });
     updateStats(rawText);
     updateLineNumbers();
     indicateSaving(false);
   }
-
-  // Interactividad de Checkboxes de tareas en Preview -> modifica Editor
-  preview.addEventListener('change', (e) => {
-    if (e.target && e.target.type === 'checkbox') {
-      const checkboxIndex = parseInt(e.target.dataset.taskIndex, 10);
-      toggleTaskCheckboxInEditor(checkboxIndex, e.target.checked);
-    }
-  });
-
-  function toggleTaskCheckboxInEditor(targetIndex, isChecked) {
-    const lines = editor.value.split('\n');
-    let currentIndex = 0;
-    const regex = /^(\s*[-*+]\s*\[)([ xX])(\]\s*.*)$/;
-
-    for (let i = 0; i < lines.length; i++) {
-      const match = lines[i].match(regex);
-      if (match) {
-        if (currentIndex === targetIndex) {
-          lines[i] = `${match[1]}${isChecked ? 'x' : ' '}${match[3]}`;
-          editor.value = lines.join('\n');
-          renderDocument(true);
-          showToast(`Tarea ${isChecked ? 'completada' : 'desmarcada'}`, 'info');
-          break;
-        }
-        currentIndex++;
-      }
-    }
-  }
-
   // ========================================================
   // 6. ACTUALIZADOR DE LÍNEAS, ESTADÍSTICAS Y ESQUEMA
   // ========================================================
@@ -2188,6 +2511,7 @@ Markdown permite citar orígenes usando notas al pie[^1] numeradas o descriptiva
       } else {
         // Transformar: limpiar prefijos previos y agregar el nuevo
         const clean = l.replace(/^([-*+]\s*\[[ xX]\]\s+|[-*+]\s+|\d+\.\s+|>\s?)/, '');
+        if (type === 'subtext') return '-# ' + (clean || 'Texto diminuto');
         if (type === 'quote') return '> ' + (clean || 'Cita');
         if (type === 'ulist') return '- ' + (clean || 'Elemento de lista');
         if (type === 'olist') return `${idx + 1}. ` + (clean || 'Paso');
@@ -2373,15 +2697,11 @@ Markdown permite citar orígenes usando notas al pie[^1] numeradas o descriptiva
         toggleLinePrefix('quote');
         break;
       case 'inline-code':
-        if (state.platform === 'whatsapp') {
-          toggleInlineSyntax('```', 'código');
-        } else {
-          toggleInlineSyntax('`', 'código');
-        }
+        toggleInlineSyntax('`', 'código');
         break;
       case 'code':
         if (state.platform === 'whatsapp') {
-          toggleInlineSyntax('```', 'código');
+          insertSyntax('```\n', '\n```');
         } else {
           toggleCodeBlock('javascript');
         }
@@ -3177,6 +3497,28 @@ Markdown permite citar orígenes usando notas al pie[^1] numeradas o descriptiva
         lucide.createIcons({ root: targetPanel });
       }
     });
+  });
+
+  // Botones para cargar las guías oficiales de cada modo en el editor
+  document.getElementById('btn-load-universal-guide')?.addEventListener('click', () => {
+    closeModal(cheatsheetModal);
+    setPlatform('standard');
+    createNewDoc('Guia-Universal-Markdown.md', defaultTemplates['universal-guide']);
+    showToast('¡Guía Universal cargada en el editor!', 'success');
+  });
+
+  document.getElementById('btn-load-discord-guide')?.addEventListener('click', () => {
+    closeModal(cheatsheetModal);
+    setPlatform('discord');
+    createNewDoc('Manual-Discord-Markdown.md', defaultTemplates['discord-guide']);
+    showToast('¡Manual de Discord cargado y modo activado!', 'success');
+  });
+
+  document.getElementById('btn-load-whatsapp-guide')?.addEventListener('click', () => {
+    closeModal(cheatsheetModal);
+    setPlatform('whatsapp');
+    createNewDoc('Manual-WhatsApp-Markdown.md', defaultTemplates['whatsapp-guide']);
+    showToast('¡Manual de WhatsApp cargado y modo activado!', 'success');
   });
 
   // Botón para cargar guía de apps en el editor
