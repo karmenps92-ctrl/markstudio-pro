@@ -1,0 +1,1030 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MarkStudio Pro — Editor Markdown de Próxima Generación</title>
+  <meta name="description" content="Editor Markdown profesional y en tiempo real con soporte KaTeX, diagramas Mermaid, alertas GitHub, sincronización inteligente, temas y exportación múltiple." />
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- KaTeX (Fórmulas Matemáticas LaTeX) -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+
+  <!-- Highlight.js (Resaltado de sintaxis de código) -->
+  <link id="hljs-theme" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+
+  <!-- Marked.js (Markdown Engine) -->
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
+  <!-- Mermaid.js (Diagramas dinámicos) -->
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@10.9.0/dist/mermaid.min.js"></script>
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <!-- Canvas Confetti -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
+
+  <!-- App Stylesheet -->
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <!-- Header / Barra Superior Principal -->
+  <header class="app-header">
+    <div class="header-left">
+      <button id="btn-toggle-sidebar" class="icon-btn" title="Alternar panel lateral de documentos (Ctrl+\)">
+        <i data-lucide="panel-left"></i>
+      </button>
+
+      <div class="brand">
+        <div class="brand-badge">
+          <i data-lucide="sparkles"></i>
+        </div>
+        <div class="brand-title-wrap">
+          <span class="brand-title">MarkStudio <span class="gradient-text">Pro</span></span>
+          <span class="brand-sub">v2.5 Studio</span>
+        </div>
+      </div>
+
+      <div class="doc-title-container">
+        <input type="text" id="doc-title-input" class="doc-title-input" value="Sin título.md" spellcheck="false" title="Haz clic para renombrar documento" />
+        <span class="save-indicator" id="save-indicator">
+          <span class="dot"></span> Guardado
+        </span>
+      </div>
+
+      <!-- Selector de Modo de Plataforma -->
+      <div class="platform-selector" id="platform-selector">
+        <button class="platform-btn active" data-platform="standard" title="Modo Markdown Estándar (GitHub / Web)">
+          <i data-lucide="globe"></i> <span>Normal</span>
+        </button>
+        <button class="platform-btn" data-platform="discord" title="Modo Discord (Spoilers ||..||, Subrayado __..__, sin tablas)">
+          <i data-lucide="gamepad-2"></i> <span>Discord</span>
+        </button>
+        <button class="platform-btn" data-platform="whatsapp" title="Modo WhatsApp (*negrita*, _cursiva_, ~tachado~, sin encabezados)">
+          <i data-lucide="message-circle"></i> <span>WhatsApp</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Barra de Herramientas de Edición Rápida (Centro) -->
+    <div class="toolbar-center" id="toolbar-center">
+      <div class="tool-group" data-platforms="standard,discord,whatsapp">
+        <button class="tool-btn" data-action="undo" data-platforms="standard,discord,whatsapp" title="Deshacer (Ctrl+Z)"><i data-lucide="undo-2"></i></button>
+        <button class="tool-btn" data-action="redo" data-platforms="standard,discord,whatsapp" title="Rehacer (Ctrl+Y)"><i data-lucide="redo-2"></i></button>
+      </div>
+
+      <div class="tool-separator"></div>
+
+      <div class="tool-group" data-platforms="standard,discord,whatsapp">
+        <button class="tool-btn" data-action="bold" data-platforms="standard,discord,whatsapp" title="Negrita (Alternar)"><i data-lucide="bold"></i></button>
+        <button class="tool-btn" data-action="italic" data-platforms="standard,discord,whatsapp" title="Cursiva (Alternar)"><i data-lucide="italic"></i></button>
+        <button class="tool-btn" data-action="heading" data-platforms="standard,discord" title="Encabezado (Alternar H2 -> H3 -> H1 -> Texto)"><i data-lucide="heading"></i></button>
+        <button class="tool-btn" data-action="strikethrough" data-platforms="standard,discord,whatsapp" title="Tachado (Alternar)"><i data-lucide="strikethrough"></i></button>
+      </div>
+
+      <div class="tool-group" data-platforms="discord" id="discord-specific-group" style="display: none;">
+        <button class="tool-btn" data-action="spoiler" data-platforms="discord" title="Spoiler Discord (||secreto||)"><i data-lucide="eye-off"></i></button>
+        <button class="tool-btn" data-action="underline" data-platforms="discord" title="Subrayado Discord (__texto__)"><i data-lucide="underline"></i></button>
+      </div>
+
+      <div class="tool-separator"></div>
+
+      <div class="tool-group" data-platforms="standard,discord,whatsapp">
+        <button class="tool-btn" data-action="quote" data-platforms="standard,discord,whatsapp" title="Cita (Alternar)"><i data-lucide="quote"></i></button>
+        <button class="tool-btn" data-action="inline-code" data-platforms="standard,discord,whatsapp" title="Código en línea (`código`)"><i data-lucide="code"></i></button>
+        <button class="tool-btn" data-action="code" data-platforms="standard,discord,whatsapp" title="Bloque de código (```lenguaje ... ```)"><i data-lucide="code-2"></i></button>
+        <button class="tool-btn" data-action="math" data-platforms="standard" title="Fórmula matemática (LaTeX)"><i data-lucide="sigma"></i></button>
+        <button class="tool-btn" data-action="mermaid" data-platforms="standard" title="Diagrama Mermaid"><i data-lucide="git-fork"></i></button>
+      </div>
+
+      <div class="tool-separator"></div>
+
+      <div class="tool-group" data-platforms="standard,discord,whatsapp">
+        <button class="tool-btn" data-action="ulist" data-platforms="standard,discord,whatsapp" title="Lista con viñetas (Alternar)"><i data-lucide="list"></i></button>
+        <button class="tool-btn" data-action="olist" data-platforms="standard,discord,whatsapp" title="Lista numerada (Alternar)"><i data-lucide="list-ordered"></i></button>
+        <button class="tool-btn" data-action="task" data-platforms="standard" title="Lista de tareas (Alternar)"><i data-lucide="check-square"></i></button>
+        <button class="tool-btn" data-action="table" data-platforms="standard" title="Insertar tabla"><i data-lucide="table"></i></button>
+        <button class="tool-btn" data-action="link" data-platforms="standard,discord" title="Enlace (Alternar)"><i data-lucide="link"></i></button>
+        <button class="tool-btn" data-action="image" data-platforms="standard" title="Imagen Markdown"><i data-lucide="image"></i></button>
+      </div>
+
+      <div class="tool-separator"></div>
+
+      <div class="tool-group" data-platforms="standard">
+        <button class="tool-btn" data-action="callout" data-platforms="standard" title="Alerta / Callout GitHub"><i data-lucide="info"></i></button>
+        <button class="tool-btn" id="btn-open-palette" data-platforms="standard,discord,whatsapp" title="Comando rápido (Ctrl+K)"><i data-lucide="terminal"></i></button>
+      </div>
+    </div>
+
+    <!-- Botones de Acción y Vistas (Derecha) -->
+    <div class="header-right">
+      <!-- Selector de Modo de Vista -->
+      <div class="view-mode-selector">
+        <button class="view-mode-btn" data-view="editor" title="Modo Solo Editor"><i data-lucide="edit-3"></i></button>
+        <button class="view-mode-btn active" data-view="split" title="Vista Dividida"><i data-lucide="columns-2"></i></button>
+        <button class="view-mode-btn" data-view="preview" title="Modo Solo Vista Previa"><i data-lucide="eye"></i></button>
+      </div>
+
+      <!-- Menú Exportar / Compartir -->
+      <div class="dropdown-container">
+        <button class="btn btn-action" id="btn-export-menu">
+          <i data-lucide="download"></i>
+          <span>Exportar</span>
+          <i data-lucide="chevron-down" class="dropdown-arrow"></i>
+        </button>
+        <div class="dropdown-menu" id="export-dropdown">
+          <div class="dropdown-item" id="export-md">
+            <i data-lucide="file-text"></i>
+            <div>
+              <div class="item-title">Descargar archivo Markdown</div>
+              <div class="item-desc">Guarda como .md listo para GitHub</div>
+            </div>
+          </div>
+          <div class="dropdown-item" id="export-html">
+            <i data-lucide="code"></i>
+            <div>
+              <div class="item-title">Descargar HTML estilizado</div>
+              <div class="item-desc">Documento web autónomo con CSS integrado</div>
+            </div>
+          </div>
+          <div class="dropdown-item" id="export-pdf">
+            <i data-lucide="printer"></i>
+            <div>
+              <div class="item-title">Imprimir o Guardar como PDF</div>
+              <div class="item-desc">Hoja con formato limpio para impresión</div>
+            </div>
+          </div>
+          <div class="dropdown-divider"></div>
+          <div class="dropdown-item" id="copy-markdown">
+            <i data-lucide="copy"></i>
+            <div>
+              <div class="item-title">Copiar Markdown fuente</div>
+              <div class="item-desc">Copia el texto al portapapeles</div>
+            </div>
+          </div>
+          <div class="dropdown-item" id="copy-html">
+            <i data-lucide="clipboard"></i>
+            <div>
+              <div class="item-title">Copiar código HTML generado</div>
+              <div class="item-desc">Para incrustar en blogs o CMS</div>
+            </div>
+          </div>
+          <div class="dropdown-item" id="copy-rich">
+            <i data-lucide="layout"></i>
+            <div>
+              <div class="item-title">Copiar como Formato Enriquecido</div>
+              <div class="item-desc">Pega directo a Google Docs, Notion o Word</div>
+            </div>
+          </div>
+          <div class="dropdown-divider"></div>
+          <div class="dropdown-item" id="copy-whatsapp">
+            <i data-lucide="message-circle"></i>
+            <div>
+              <div class="item-title">Copiar optimizado para WhatsApp</div>
+              <div class="item-desc">Convierte y copia con sintaxis *negrita* y _cursiva_</div>
+            </div>
+          </div>
+          <div class="dropdown-item" id="copy-discord">
+            <i data-lucide="gamepad-2"></i>
+            <div>
+              <div class="item-title">Copiar optimizado para Discord</div>
+              <div class="item-desc">Copia listo para pegar en canales de Discord</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Configuración y Temas -->
+      <div class="dropdown-container">
+        <button class="icon-btn" id="btn-theme-menu" title="Seleccionar tema visual">
+          <i data-lucide="palette"></i>
+        </button>
+        <div class="dropdown-menu right-aligned" id="theme-dropdown">
+          <div class="menu-label">TEMAS VISUALES</div>
+          <div class="theme-option active" data-theme="dark">
+            <span class="theme-dot theme-dot-dark"></span> Slate Dark (Predeterminado)
+          </div>
+          <div class="theme-option" data-theme="tokyo">
+            <span class="theme-dot theme-dot-tokyo"></span> Tokyo Night
+          </div>
+          <div class="theme-option" data-theme="cyber">
+            <span class="theme-dot theme-dot-cyber"></span> Cyber Neon
+          </div>
+          <div class="theme-option" data-theme="nord">
+            <span class="theme-dot theme-dot-nord"></span> Nord Polar
+          </div>
+          <div class="theme-option" data-theme="light">
+            <span class="theme-dot theme-dot-light"></span> Paper Luxe (Claro)
+          </div>
+        </div>
+      </div>
+
+      <button class="icon-btn" id="btn-templates" title="Plantillas de documentos">
+        <i data-lucide="layout-template"></i>
+      </button>
+
+      <button class="icon-btn" id="btn-open-settings" title="Ajustes y opciones">
+        <i data-lucide="settings"></i>
+      </button>
+    </div>
+  </header>
+
+  <!-- Estructura Principal del Editor -->
+  <main class="main-layout" id="main-layout">
+    
+    <!-- Sidebar de Documentos y Esquema (Colapsable) -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <div class="sidebar-tabs">
+          <button class="sidebar-tab-btn active" data-tab="docs">
+            <i data-lucide="files"></i> Documentos
+          </button>
+          <button class="sidebar-tab-btn" data-tab="toc">
+            <i data-lucide="list-tree"></i> Índice
+          </button>
+        </div>
+      </div>
+
+      <!-- Pestaña 1: Gestor de Documentos Locales -->
+      <div class="sidebar-content active" id="tab-docs">
+        <div class="sidebar-actions">
+          <button class="btn btn-sm btn-full" id="btn-new-doc">
+            <i data-lucide="plus"></i> Nuevo Documento
+          </button>
+          <label class="btn btn-sm btn-outline btn-full file-upload-label">
+            <i data-lucide="upload"></i> Importar archivo .md
+            <input type="file" id="file-import-input" accept=".md,.markdown,.txt" style="display:none;" />
+          </label>
+        </div>
+
+        <div class="docs-list-title">DOCUMENTOS GUARDADOS (<span id="docs-count">1</span>)</div>
+        <div class="docs-list" id="docs-list">
+          <!-- Documentos inyectados dinámicamente con JS -->
+        </div>
+
+        <div class="sidebar-footer">
+          <button class="sidebar-text-btn" id="btn-clear-all-docs">
+            <i data-lucide="trash"></i> Limpiar todos los borradores
+          </button>
+        </div>
+      </div>
+
+      <!-- Pestaña 2: Tabla de Contenidos Dinámica (TOC / Esquema) -->
+      <div class="sidebar-content" id="tab-toc">
+        <div class="toc-header">
+          <span>ESQUEMA DEL DOCUMENTO</span>
+        </div>
+        <div class="toc-list" id="toc-list">
+          <div class="toc-empty">No hay encabezados todavía. Usa # H1, ## H2 para estructurar tu documento.</div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Área de Trabajo Dividida -->
+    <div class="workspace-container" id="workspace-container">
+      
+      <!-- Panel Izquierdo: Editor -->
+      <div class="editor-pane" id="editor-pane">
+        <div class="pane-topbar">
+          <div class="pane-meta">
+            <span class="pane-badge"><i data-lucide="file-code-2"></i> Editor</span>
+            <span class="meta-item" id="editor-cursor-pos">Lín 1, Col 1</span>
+          </div>
+
+          <div class="pane-tools">
+            <button class="mini-btn" id="btn-open-history" title="Historial de Versiones y Restauración (Snapshots)">
+              <i data-lucide="history"></i> Versiones
+            </button>
+            <button class="mini-btn btn-highlight" id="btn-convert-syntax" title="Convierte automáticamente la sintaxis del documento actual al formato de la plataforma activa">
+              <i data-lucide="arrow-right-left"></i> <span id="convert-btn-text">Convertir a WhatsApp</span>
+            </button>
+            <button class="mini-btn" id="btn-toggle-wrap" title="Alternar Ajuste de Línea (Word Wrap)">
+              <i data-lucide="text-wrap"></i> Wrap: ON
+            </button>
+            <button class="mini-btn" id="btn-find-replace" title="Buscar y Reemplazar (Ctrl+F)">
+              <i data-lucide="search"></i> Buscar
+            </button>
+            <button class="mini-btn" id="btn-format-markdown" title="Formatear y Limpiar Espacios">
+              <i data-lucide="wand-2"></i> Formatear
+            </button>
+            <button class="mini-btn" id="btn-zen-mode" title="Modo Zen de Concentración (F11)">
+              <i data-lucide="maximize-2"></i> Zen
+            </button>
+          </div>
+        </div>
+
+        <!-- Buscador integrado en editor -->
+        <div class="find-replace-bar" id="find-replace-bar">
+          <div class="find-inputs">
+            <div class="search-input-wrap">
+              <i data-lucide="search" class="input-icon"></i>
+              <input type="text" id="find-input" placeholder="Buscar texto..." />
+              <span id="find-count" class="find-badge">0/0</span>
+            </div>
+            <div class="search-input-wrap">
+              <i data-lucide="replace" class="input-icon"></i>
+              <input type="text" id="replace-input" placeholder="Reemplazar con..." />
+            </div>
+          </div>
+          <div class="find-actions">
+            <button class="mini-btn" id="btn-find-prev" title="Anterior"><i data-lucide="arrow-up"></i></button>
+            <button class="mini-btn" id="btn-find-next" title="Siguiente"><i data-lucide="arrow-down"></i></button>
+            <button class="btn btn-xs" id="btn-replace-one">Reemplazar</button>
+            <button class="btn btn-xs" id="btn-replace-all">Todos</button>
+            <button class="mini-btn" id="btn-close-find" title="Cerrar"><i data-lucide="x"></i></button>
+          </div>
+        </div>
+
+        <!-- Envoltorio del Editor con Números de Línea -->
+        <div class="editor-wrapper" id="editor-wrapper">
+          <div class="line-numbers" id="line-numbers">1</div>
+          <textarea 
+            id="editor-textarea" 
+            class="editor-textarea" 
+            spellcheck="false" 
+            autocomplete="off" 
+            autocorrect="off" 
+            autocapitalize="off" 
+            placeholder="Escribe o pega tu Markdown aquí... Soporta KaTeX $x^2$, diagramas Mermaid, tablas GFM y atajos."></textarea>
+        </div>
+      </div>
+
+      <!-- Barra de Redimensionamiento (Resizer) -->
+      <div class="resizer" id="resizer" title="Arrastra para redimensionar paneles">
+        <div class="resizer-handle"></div>
+      </div>
+
+      <!-- Panel Derecho: Vista Previa en Vivo -->
+      <div class="preview-pane" id="preview-pane">
+        <div class="pane-topbar">
+          <div class="pane-meta">
+            <span class="pane-badge live-badge"><i data-lucide="play-circle"></i> Vista Previa en Vivo</span>
+            <span class="meta-item" id="render-time">Renderizado: 0ms</span>
+          </div>
+
+          <div class="pane-tools">
+            <button class="mini-btn" id="btn-toggle-sync-scroll" title="Sincronización de scroll activa">
+              <i data-lucide="repeat"></i> Scroll Sync: ON
+            </button>
+            <button class="mini-btn" id="btn-refresh-preview" title="Re-renderizar diagramas">
+              <i data-lucide="rotate-cw"></i>
+            </button>
+          </div>
+        </div>
+
+        <div class="preview-scroll-container" id="preview-container">
+          <article class="markdown-body" id="preview-content">
+            <!-- Renderizado dinámico -->
+          </article>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- Barra Inferior de Estado (Status Bar) -->
+  <footer class="app-footer">
+    <div class="footer-left">
+      <div class="stat-pill"><i data-lucide="type"></i> <span id="stat-words">0</span> palabras</div>
+      <div class="stat-pill"><i data-lucide="hash"></i> <span id="stat-chars">0</span> caracteres</div>
+      <div class="stat-pill"><i data-lucide="align-left"></i> <span id="stat-lines">0</span> líneas</div>
+      <div class="stat-pill"><i data-lucide="clock"></i> Lectura: ~<span id="stat-read-time">0</span> min</div>
+    </div>
+
+    <!-- Medidor de Meta de Palabras -->
+    <div class="footer-center">
+      <div class="goal-tracker" id="goal-tracker" title="Haz clic para definir meta de palabras">
+        <span class="goal-label">Meta: <span id="goal-current">0</span>/<span id="goal-target">500</span></span>
+        <div class="goal-progress-bar">
+          <div class="goal-progress-fill" id="goal-progress-fill" style="width: 0%;"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer-right">
+      <button class="footer-btn" id="btn-show-cheatsheet" title="Guía de sintaxis Markdown">
+        <i data-lucide="help-circle"></i> Ayuda & Atajos
+      </button>
+      <button class="footer-btn" id="btn-storage-dashboard" title="Panel de Almacenamiento Avanzado (IndexedDB + Bóveda + Copias de Seguridad)">
+        <i data-lucide="database"></i> <span id="storage-status-text">IndexedDB Activo</span>
+      </button>
+    </div>
+  </footer>
+
+  <!-- ================= MODALES Y DIÁLOGOS ================= -->
+
+  <!-- 1. Paleta de Comandos Rápidos (Ctrl+K) -->
+  <div class="modal-overlay" id="palette-modal">
+    <div class="palette-container">
+      <div class="palette-header">
+        <i data-lucide="search" class="palette-search-icon"></i>
+        <input type="text" id="palette-input" placeholder="Escribe un comando o busca una acción... (ej. Tabla, Mermaid, Exportar, Tema)" autocomplete="off" />
+        <span class="esc-badge">ESC</span>
+      </div>
+      <div class="palette-results" id="palette-results">
+        <!-- Rellenado dinámicamente -->
+      </div>
+      <div class="palette-footer">
+        <span>Navega con <kbd>↑</kbd> <kbd>↓</kbd></span>
+        <span>Selecciona con <kbd>Enter</kbd></span>
+        <span>Cierra con <kbd>Esc</kbd></span>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2. Modal de Plantillas Rápidas -->
+  <div class="modal-overlay" id="templates-modal">
+    <div class="modal-box modal-lg">
+      <div class="modal-header">
+        <div class="modal-title-wrap">
+          <i data-lucide="layout-template"></i>
+          <h3>Biblioteca de Plantillas Profesionales</h3>
+        </div>
+        <button class="modal-close" data-close="templates-modal"><i data-lucide="x"></i></button>
+      </div>
+      <p class="modal-subtitle">Selecciona una plantilla estructurada para arrancar rápidamente tu proyecto.</p>
+
+      <div class="templates-grid">
+        <div class="template-card" data-template="readme">
+          <div class="template-icon"><i data-lucide="github"></i></div>
+          <h4>README Proyecto Moderno</h4>
+          <p>Encabezados, badges, instalación, demo interactiva, arquitectura y licencias.</p>
+        </div>
+
+        <div class="template-card" data-template="tech-spec">
+          <div class="template-icon"><i data-lucide="cpu"></i></div>
+          <h4>Especificación Técnica (RFC)</h4>
+          <p>Resumen, arquitectura, diagramas Mermaid, requisitos y modelos de datos.</p>
+        </div>
+
+        <div class="template-card" data-template="math-science">
+          <div class="template-icon"><i data-lucide="binary"></i></div>
+          <h4>Física, Matemáticas & KaTeX</h4>
+          <p>Fórmulas complejas, cálculo integral, matrices LaTeX y demostraciones.</p>
+        </div>
+
+        <div class="template-card" data-template="api-docs">
+          <div class="template-icon"><i data-lucide="code-xml"></i></div>
+          <h4>Documentación de API REST</h4>
+          <p>Endpoints HTTP, payloads JSON, códigos de respuesta y ejemplos cURL.</p>
+        </div>
+
+        <div class="template-card" data-template="meeting-notes">
+          <div class="template-icon"><i data-lucide="calendar"></i></div>
+          <h4>Minutas de Reunión & Sprint</h4>
+          <p>Participantes, orden del día, decisiones clave y checklist de compromisos.</p>
+        </div>
+
+        <div class="template-card" data-template="blog-post">
+          <div class="template-icon"><i data-lucide="pen-tool"></i></div>
+          <h4>Artículo Técnico para Blog</h4>
+          <p>Frontmatter SEO, introducción cautivadora, bloques destacados y conclusiones.</p>
+        </div>
+
+        <div class="template-card" data-template="apps-guide">
+          <div class="template-icon"><i data-lucide="compass"></i></div>
+          <h4>Guía de Apps con Markdown Propio</h4>
+          <p>Discord, WhatsApp, Telegram, Slack, Reddit, Notion, Obsidian, Jira y matriz comparativa.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3. Modal de Ajustes -->
+  <div class="modal-overlay" id="settings-modal">
+    <div class="modal-box">
+      <div class="modal-header">
+        <div class="modal-title-wrap">
+          <i data-lucide="settings"></i>
+          <h3>Preferencias del Editor</h3>
+        </div>
+        <button class="modal-close" data-close="settings-modal"><i data-lucide="x"></i></button>
+      </div>
+
+      <div class="settings-content">
+        <div class="setting-row">
+          <div class="setting-info">
+            <label>Tamaño de Fuente del Editor</label>
+            <span>Ajusta los píxeles de texto del código</span>
+          </div>
+          <div class="setting-ctrl">
+            <select id="setting-font-size">
+              <option value="13">13 px (Compacto)</option>
+              <option value="15" selected>15 px (Normal)</option>
+              <option value="17">17 px (Cómodo)</option>
+              <option value="19">19 px (Grande)</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="setting-row">
+          <div class="setting-info">
+            <label>Tipografía del Editor</label>
+            <span>Selecciona tu fuente monoespaciada favorita</span>
+          </div>
+          <div class="setting-ctrl">
+            <select id="setting-font-family">
+              <option value="'Fira Code', monospace" selected>Fira Code</option>
+              <option value="'JetBrains Mono', monospace">JetBrains Mono</option>
+              <option value="'Consolas', 'Courier New', monospace">Consolas</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="setting-row">
+          <div class="setting-info">
+            <label>Meta de Palabras Diaria</label>
+            <span>Objetivo para el contador de progreso inferior</span>
+          </div>
+          <div class="setting-ctrl">
+            <input type="number" id="setting-word-goal" min="50" max="50000" step="50" value="500" />
+          </div>
+        </div>
+
+        <div class="setting-row">
+          <div class="setting-info">
+            <label>Autocierre de comillas y llaves</label>
+            <span>Inserta automáticamente (), [], {}, "", ``</span>
+          </div>
+          <div class="setting-ctrl">
+            <label class="switch">
+              <input type="checkbox" id="setting-auto-close" checked />
+              <span class="slider"></span>
+            </label>
+          </div>
+        </div>
+
+        <div class="setting-row">
+          <div class="setting-info">
+            <label>Efectos de Sonido Mecánico</label>
+            <span>Suave clic táctil al teclear (Web Audio API)</span>
+          </div>
+          <div class="setting-ctrl">
+            <label class="switch">
+              <input type="checkbox" id="setting-key-sound" />
+              <span class="slider"></span>
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-actions">
+        <button class="btn btn-primary" data-close="settings-modal">Aceptar y Guardar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 4. Modal de Guía Rápida / Markdown Cheatsheet -->
+  <div class="modal-overlay" id="cheatsheet-modal">
+    <div class="modal-box modal-lg" style="max-width: 900px;">
+      <div class="modal-header">
+        <div class="modal-title-wrap">
+          <i data-lucide="book-open"></i>
+          <h3>Guía de Sintaxis por Plataformas & Atajos</h3>
+        </div>
+        <button class="modal-close" data-close="cheatsheet-modal"><i data-lucide="x"></i></button>
+      </div>
+      <p class="modal-subtitle">Domina las diferencias de marcado entre Normal (GFM), Discord y WhatsApp, o explora dialectos de otras apps populares.</p>
+
+      <!-- Selector de Pestañas de la Guía -->
+      <div class="guide-tabs" id="guide-tabs">
+        <button class="guide-tab-btn active" data-guide-tab="comparison">
+          <i data-lucide="table"></i> Comparativa 3 Modos
+        </button>
+        <button class="guide-tab-btn" data-guide-tab="normal">
+          <i data-lucide="globe"></i> Normal (GFM)
+        </button>
+        <button class="guide-tab-btn" data-guide-tab="discord">
+          <i data-lucide="message-square"></i> Discord
+        </button>
+        <button class="guide-tab-btn" data-guide-tab="whatsapp">
+          <i data-lucide="phone"></i> WhatsApp
+        </button>
+        <button class="guide-tab-btn" data-guide-tab="apps">
+          <i data-lucide="compass"></i> Apps Populares
+        </button>
+        <button class="guide-tab-btn" data-guide-tab="shortcuts">
+          <i data-lucide="keyboard"></i> Atajos de Teclado
+        </button>
+      </div>
+
+      <!-- Panel 1: Tabla Comparativa Directa entre los 3 Modos -->
+      <div class="guide-panel active" id="guide-panel-comparison">
+        <div class="guide-comparison-wrap">
+          <table class="guide-table">
+            <thead>
+              <tr>
+                <th>Elemento de Formato</th>
+                <th>🌐 Modo Normal (GFM)</th>
+                <th>💬 Modo Discord</th>
+                <th>📱 Modo WhatsApp</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Negrita</strong></td>
+                <td><code>**texto**</code></td>
+                <td><code>**texto**</code></td>
+                <td><code>*texto*</code> <em>(un solo asterisco)</em></td>
+              </tr>
+              <tr>
+                <td><strong>Cursiva</strong></td>
+                <td><code>*texto*</code> o <code>_texto_</code></td>
+                <td><code>*texto*</code> o <code>_texto_</code></td>
+                <td><code>_texto_</code> <em>(guiones bajos)</em></td>
+              </tr>
+              <tr>
+                <td><strong>Tachado</strong></td>
+                <td><code>~~texto~~</code></td>
+                <td><code>~~texto~~</code></td>
+                <td><code>~texto~</code> <em>(una sola tilde)</em></td>
+              </tr>
+              <tr>
+                <td><strong>Subrayado</strong></td>
+                <td><code>&lt;u&gt;texto&lt;/u&gt;</code></td>
+                <td><code>__texto__</code></td>
+                <td><span class="badge" style="background:rgba(239,68,68,0.15);color:#ef4444;font-size:0.68rem;padding:2px 6px;border-radius:4px;">No disponible</span></td>
+              </tr>
+              <tr>
+                <td><strong>Spoiler (Oculto)</strong></td>
+                <td><span class="badge" style="background:rgba(239,68,68,0.15);color:#ef4444;font-size:0.68rem;padding:2px 6px;border-radius:4px;">No estándar</span></td>
+                <td><code>||secreto||</code></td>
+                <td><span class="badge" style="background:rgba(239,68,68,0.15);color:#ef4444;font-size:0.68rem;padding:2px 6px;border-radius:4px;">No disponible</span></td>
+              </tr>
+              <tr>
+                <td><strong>Encabezados</strong></td>
+                <td><code># H1</code> hasta <code>###### H6</code></td>
+                <td><code># H1</code>, <code>## H2</code>, <code>### H3</code></td>
+                <td><span class="badge" style="background:rgba(245,158,11,0.15);color:#f59e0b;font-size:0.68rem;padding:2px 6px;border-radius:4px;">Usa *Negrita*</span></td>
+              </tr>
+              <tr>
+                <td><strong>Código en línea</strong></td>
+                <td><code>`código`</code></td>
+                <td><code>`código`</code></td>
+                <td><code>```código```</code> <em>(monoespaciado)</em></td>
+              </tr>
+              <tr>
+                <td><strong>Bloque de código</strong></td>
+                <td><code>```lenguaje ... ```</code></td>
+                <td><code>```lenguaje ... ```</code> (100+ colores)</td>
+                <td><code>```código plano```</code> (sin color)</td>
+              </tr>
+              <tr>
+                <td><strong>Citas reflexivas</strong></td>
+                <td><code>> Cita por línea</code></td>
+                <td><code>> Cita</code> o <code>>>> Cita global</code></td>
+                <td><code>> Cita simple</code></td>
+              </tr>
+              <tr>
+                <td><strong>Listas con viñetas</strong></td>
+                <td><code>- </code> o <code>* </code></td>
+                <td><code>- </code> o <code>* </code></td>
+                <td><code>- </code> o <code>* </code></td>
+              </tr>
+              <tr>
+                <td><strong>Listas de tareas</strong></td>
+                <td><code>- [ ]</code> y <code>- [x]</code> (Interactivas)</td>
+                <td><span class="badge" style="background:rgba(245,158,11,0.15);color:#f59e0b;font-size:0.68rem;padding:2px 6px;border-radius:4px;">Solo emojis [x]</span></td>
+                <td><span class="badge" style="background:rgba(245,158,11,0.15);color:#f59e0b;font-size:0.68rem;padding:2px 6px;border-radius:4px;">Solo viñetas •</span></td>
+              </tr>
+              <tr>
+                <td><strong>Enlaces con texto</strong></td>
+                <td><code>[Mi Enlace](url)</code></td>
+                <td><code>[Mi Enlace](url)</code></td>
+                <td><span class="badge" style="background:rgba(245,158,11,0.15);color:#f59e0b;font-size:0.68rem;padding:2px 6px;border-radius:4px;">Solo URLs https://...</span></td>
+              </tr>
+              <tr>
+                <td><strong>Tablas GFM</strong></td>
+                <td><code>| Col1 | Col2 |</code></td>
+                <td><span class="badge" style="background:rgba(245,158,11,0.15);color:#f59e0b;font-size:0.68rem;padding:2px 6px;border-radius:4px;">En bloques de código</span></td>
+                <td><span class="badge" style="background:rgba(245,158,11,0.15);color:#f59e0b;font-size:0.68rem;padding:2px 6px;border-radius:4px;">Listas ordenadas</span></td>
+              </tr>
+              <tr>
+                <td><strong>KaTeX / Mermaid</strong></td>
+                <td>Nativo en vivo</td>
+                <td><span class="badge" style="background:rgba(239,68,68,0.15);color:#ef4444;font-size:0.68rem;padding:2px 6px;border-radius:4px;">No soportado</span></td>
+                <td><span class="badge" style="background:rgba(239,68,68,0.15);color:#ef4444;font-size:0.68rem;padding:2px 6px;border-radius:4px;">No soportado</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="guide-notice-box">
+          <i data-lucide="sparkles"></i>
+          <div>
+            <strong>Conversión Inteligente en MarkStudio Pro:</strong>
+            Puedes alternar entre los modos <strong>Normal</strong>, <strong>Discord</strong> y <strong>WhatsApp</strong> en el selector superior. Al hacer clic en <strong>"Convertir Sintaxis"</strong>, tus negritas, tachados, encabezados y tablas se transformarán automáticamente respetando las reglas de la plataforma activa.
+          </div>
+        </div>
+      </div>
+
+      <!-- Panel 2: Modo Normal GFM -->
+      <div class="guide-panel" id="guide-panel-normal">
+        <div class="cheatsheet-grid">
+          <div class="cheat-card">
+            <h4><i data-lucide="file-text"></i> Elementos Básicos GFM</h4>
+            <ul>
+              <li><strong>Negrita:</strong> <code>**texto**</code></li>
+              <li><strong>Cursiva:</strong> <code>*texto*</code> o <code>_texto_</code></li>
+              <li><strong>Tachado:</strong> <code>~~texto~~</code></li>
+              <li><strong>Encabezados:</strong> <code># H1</code>, <code>## H2</code>, <code>### H3</code></li>
+              <li><strong>Enlaces:</strong> <code>[Texto](https://url.com)</code></li>
+              <li><strong>Imágenes:</strong> <code>![Alt](https://imagen.png)</code></li>
+              <li><strong>Cita:</strong> <code>> Cita reflexiva</code></li>
+              <li><strong>Separador:</strong> <code>---</code></li>
+            </ul>
+          </div>
+          <div class="cheat-card">
+            <h4><i data-lucide="sparkles"></i> Extensiones Avanzadas</h4>
+            <ul>
+              <li><strong>KaTeX Matemáticas:</strong> <code>$E=mc^2$</code> o <code>$$\int x dx$$</code></li>
+              <li><strong>Callouts GitHub:</strong> <code>> [!NOTE]</code>, <code>> [!TIP]</code>, <code>> [!WARNING]</code>, <code>> [!IMPORTANT]</code></li>
+              <li><strong>Diagramas Mermaid:</strong> <code>```mermaid ... ```</code></li>
+              <li><strong>Checklists Interactivas:</strong> <code>- [ ] Pendiente</code> y <code>- [x] Hecho</code></li>
+              <li><strong>Tablas Alineadas:</strong> <code>| A | B |</code> con <code>:---:</code></li>
+              <li><strong>Bloques con Copiado:</strong> <code>```js ... ```</code></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Panel 3: Modo Discord -->
+      <div class="guide-panel" id="guide-panel-discord">
+        <div class="cheatsheet-grid">
+          <div class="cheat-card">
+            <h4><i data-lucide="eye-off"></i> Spoilers & Formato Discord</h4>
+            <ul>
+              <li><strong>Spoilers Ocultos:</strong> <code>||texto confidencial||</code> (haz clic en la vista previa para revelarlo).</li>
+              <li><strong>Subrayado:</strong> <code>__texto subrayado__</code></li>
+              <li><strong>Negrita Cursiva:</strong> <code>***texto destacado***</code></li>
+              <li><strong>Encabezados:</strong> Soporta solo hasta nivel 3: <code># H1</code>, <code>## H2</code>, <code>### H3</code></li>
+              <li><strong>Cita Multilínea:</strong> <code>>>> texto que abarca todo el mensaje</code></li>
+              <li><strong>Cita Simple:</strong> <code>> texto de una línea</code></li>
+            </ul>
+          </div>
+          <div class="cheat-card">
+            <h4><i data-lucide="code"></i> Resaltado & Trucos de Discord</h4>
+            <ul>
+              <li><strong>Resaltado ANSI:</strong> <code>```ansi</code> para texto coloreado por terminal.</li>
+              <li><strong>Coloreado de Código:</strong> <code>```py</code>, <code>```js</code>, <code>```html</code>, <code>```json</code></li>
+              <li><strong>Timestamps Dinámicos:</strong> <code>&lt;t:1700000000:R&gt;</code> se adapta a la hora de cada miembro.</li>
+              <li><strong>Menciones:</strong> <code>@usuario</code>, <code>#canal</code>, <code>@everyone</code></li>
+              <li><strong>Botón Copiar para Discord:</strong> En el menú exportar, copia directamente con formato listo para pegar en tu canal.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Panel 4: Modo WhatsApp -->
+      <div class="guide-panel" id="guide-panel-whatsapp">
+        <div class="cheatsheet-grid">
+          <div class="cheat-card">
+            <h4><i data-lucide="phone"></i> Sintaxis Nativa de WhatsApp</h4>
+            <ul>
+              <li><strong>Negrita:</strong> <code>*palabra*</code> <em>(¡Un solo asterisco!)</em></li>
+              <li><strong>Cursiva:</strong> <code>_palabra_</code> <em>(Guiones bajos)</em></li>
+              <li><strong>Tachado:</strong> <code>~palabra~</code> <em>(Una sola tilde)</em></li>
+              <li><strong>Monoespacio:</strong> <code>```código monoespaciado```</code></li>
+              <li><strong>Citas:</strong> <code>> Mensaje citado</code></li>
+              <li><strong>Viñetas:</strong> <code>- Elemento</code> o <code>* Elemento</code></li>
+              <li><strong>Numeradas:</strong> <code>1. Primero</code>, <code>2. Segundo</code></li>
+            </ul>
+          </div>
+          <div class="cheat-card">
+            <h4><i data-lucide="alert-circle"></i> Limitaciones en WhatsApp</h4>
+            <ul>
+              <li><strong>🚫 Sin Encabezados:</strong> Los <code>#</code> se envían como caracteres literales. Nuestro conversor los traduce a <code>*Negrita*</code>.</li>
+              <li><strong>🚫 Sin Tablas:</strong> Las tablas se desarman en listas legibles con separadores <code>•</code>.</li>
+              <li><strong>🚫 Sin Enlaces Personalizados:</strong> Solo se reconocen URLs directas como <code>https://sitio.com</code>.</li>
+              <li><strong>🚫 Sin Fórmulas ni Diagramas:</strong> Se recomienda exportar como imagen o texto enriquecido.</li>
+              <li><strong>Botón Copiar para WhatsApp:</strong> Adapta el texto y lo copia directo al portapapeles.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Panel 5: Apps Populares con Markdown Propio -->
+      <div class="guide-panel" id="guide-panel-apps">
+        <div class="guide-apps-grid">
+          <div class="guide-app-card">
+            <div class="guide-app-header">
+              <span class="guide-app-title"><i data-lucide="send"></i> Telegram</span>
+              <span class="guide-app-badge">MarkdownV2</span>
+            </div>
+            <p class="guide-app-desc">Soporta spoilers <code>||texto||</code>, subrayado <code>__texto__</code> y citas expandibles <code>**></code>. Requiere escapar 18 caracteres especiales.</p>
+            <ul class="guide-app-features">
+              <li><i data-lucide="check"></i> Spoilers difuminados interactivos</li>
+              <li><i data-lucide="check"></i> Enlaces con nombre [Canal](url)</li>
+            </ul>
+          </div>
+
+          <div class="guide-app-card">
+            <div class="guide-app-header">
+              <span class="guide-app-title"><i data-lucide="slack"></i> Slack</span>
+              <span class="guide-app-badge">mrkdwn</span>
+            </div>
+            <p class="guide-app-desc">Usa negrita con asterisco simple <code>*negrita*</code>, tilde para tachado <code>~tachado~</code> y enlaces tipo <code>&lt;url|Nombre&gt;</code>.</p>
+            <ul class="guide-app-features">
+              <li><i data-lucide="check"></i> Citas globales <code>>>></code></li>
+              <li><i data-lucide="x"></i> Sin resaltado de sintaxis</li>
+            </ul>
+          </div>
+
+          <div class="guide-app-card">
+            <div class="guide-app-header">
+              <span class="guide-app-title"><i data-lucide="message-circle"></i> Reddit</span>
+              <span class="guide-app-badge">Snoo-Flavored</span>
+            </div>
+            <p class="guide-app-desc">Incluye superíndices con exponente <code>x^2</code> o <code>^(frase)</code> y spoilers exclusivos con corchete <code>>!spoiler!<</code>.</p>
+            <ul class="guide-app-features">
+              <li><i data-lucide="check"></i> Tablas completas GFM</li>
+              <li><i data-lucide="check"></i> Spoilers <code>>!secreto!<</code></li>
+            </ul>
+          </div>
+
+          <div class="guide-app-card">
+            <div class="guide-app-header">
+              <span class="guide-app-title"><i data-lucide="file-symlink"></i> Obsidian / PKM</span>
+              <span class="guide-app-badge">Wikilinks Extended</span>
+            </div>
+            <p class="guide-app-desc">Redes neuronales de notas con enlaces bidireccionales <code>[[Nota]]</code>, transclusiones <code>![[Imagen]]</code> y tags <code>#tag</code>.</p>
+            <ul class="guide-app-features">
+              <li><i data-lucide="check"></i> KaTeX y Mermaid 100% compatibles</li>
+              <li><i data-lucide="check"></i> Callouts plegables <code>> [!NOTE]-</code></li>
+            </ul>
+          </div>
+
+          <div class="guide-app-card">
+            <div class="guide-app-header">
+              <span class="guide-app-title"><i data-lucide="layout"></i> Notion</span>
+              <span class="guide-app-badge">Block Markdown</span>
+            </div>
+            <p class="guide-app-desc">Markdown convertido a bloques interactivos. Soporta toggle lists con <code>> Toggle</code>, fórmulas LaTeX y bases de datos.</p>
+            <ul class="guide-app-features">
+              <li><i data-lucide="check"></i> Listas desplegables interactivas</li>
+              <li><i data-lucide="check"></i> Ecuaciones en bloque <code>$$...$$</code></li>
+            </ul>
+          </div>
+
+          <div class="guide-app-card">
+            <div class="guide-app-header">
+              <span class="guide-app-title"><i data-lucide="layers"></i> Jira / Confluence</span>
+              <span class="guide-app-badge">Atlassian Markup</span>
+            </div>
+            <p class="guide-app-desc">Sintaxis wiki con subrayado <code>+texto+</code>, tachado <code>-texto-</code>, superíndice <code>^texto^</code> y paneles <code>{code}</code>.</p>
+            <ul class="guide-app-features">
+              <li><i data-lucide="check"></i> Paneles de advertencia <code>{panel}</code></li>
+              <li><i data-lucide="check"></i> Citas de autor <code>{quote}</code></li>
+            </ul>
+          </div>
+        </div>
+
+        <div style="text-align:center;margin-top:12px;">
+          <button class="btn btn-primary" id="btn-load-apps-guide">
+            <i data-lucide="book-marked"></i> Abrir Guía Definitiva de Apps en el Editor (.md)
+          </button>
+        </div>
+      </div>
+
+      <!-- Panel 6: Atajos de Teclado -->
+      <div class="guide-panel" id="guide-panel-shortcuts">
+        <div class="cheatsheet-grid">
+          <div class="cheat-card">
+            <h4><i data-lucide="keyboard"></i> Atajos de Edición</h4>
+            <ul>
+              <li><kbd>Ctrl</kbd> + <kbd>B</kbd> : Alternar Negrita</li>
+              <li><kbd>Ctrl</kbd> + <kbd>I</kbd> : Alternar Cursiva</li>
+              <li><kbd>Ctrl</kbd> + <kbd>Z</kbd> : Deshacer</li>
+              <li><kbd>Ctrl</kbd> + <kbd>Y</kbd> : Rehacer</li>
+              <li><kbd>Tab</kbd> : Sangría / Indentar 2 espacios</li>
+              <li><kbd>Shift</kbd> + <kbd>Tab</kbd> : Reducir sangría</li>
+              <li><kbd>Enter</kbd> : Continuar viñetas o tareas automáticamente</li>
+            </ul>
+          </div>
+
+          <div class="cheat-card">
+            <h4><i data-lucide="command"></i> Navegación & Vistas</h4>
+            <ul>
+              <li><kbd>Ctrl</kbd> + <kbd>K</kbd> : Paleta de comandos rápidos</li>
+              <li><kbd>Ctrl</kbd> + <kbd>F</kbd> : Buscar y reemplazar</li>
+              <li><kbd>Ctrl</kbd> + <kbd>N</kbd> : Nuevo documento en blanco</li>
+              <li><kbd>Ctrl</kbd> + <kbd>S</kbd> : Guardar checkpoint manual</li>
+              <li><kbd>Ctrl</kbd> + <kbd>\</kbd> : Mostrar / Ocultar panel lateral</li>
+              <li><kbd>F11</kbd> : Modo Zen de máxima concentración</li>
+              <li><kbd>Esc</kbd> : Cerrar cualquier modal o buscador activo</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- 5. Modal de Historial de Versiones -->
+  <div class="modal-overlay" id="versions-modal">
+    <div class="modal-box modal-lg">
+      <div class="modal-header">
+        <div class="modal-title-wrap">
+          <i data-lucide="history"></i>
+          <h3>Historial de Versiones & Puntos de Restauración</h3>
+        </div>
+        <button class="modal-close" data-close="versions-modal"><i data-lucide="x"></i></button>
+      </div>
+      <p class="modal-subtitle">Revisa versiones anteriores guardadas automáticamente por IndexedDB o crea un punto de restauración ahora.</p>
+
+      <div class="versions-toolbar">
+        <button class="btn btn-sm btn-action" id="btn-create-snapshot-now">
+          <i data-lucide="bookmark-plus"></i> Guardar Punto de Restauración Ahora
+        </button>
+        <span class="text-dim" id="versions-count-label" style="font-size:0.75rem;">0 versiones guardadas</span>
+      </div>
+
+      <div class="versions-layout">
+        <div class="versions-sidebar" id="versions-list">
+          <!-- Lista de versiones inyectada con JS -->
+        </div>
+        <div class="version-preview-pane">
+          <div class="version-preview-header">
+            <span id="version-preview-meta" style="font-size:0.75rem;font-weight:600;">Selecciona una versión para previsualizar</span>
+            <button class="btn btn-sm btn-primary" id="btn-restore-version" style="display:none;">
+              <i data-lucide="rotate-ccw"></i> Restaurar esta versión
+            </button>
+          </div>
+          <pre class="version-preview-content" id="version-preview-content">Elige una versión de la columna izquierda para ver su contenido.</pre>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 6. Modal de Bóveda y Almacenamiento Avanzado -->
+  <div class="modal-overlay" id="storage-modal">
+    <div class="modal-box modal-lg">
+      <div class="modal-header">
+        <div class="modal-title-wrap">
+          <i data-lucide="database"></i>
+          <h3>Sistema de Almacenamiento Local Avanzado</h3>
+        </div>
+        <button class="modal-close" data-close="storage-modal"><i data-lucide="x"></i></button>
+      </div>
+      <p class="modal-subtitle">Arquitectura híbrida IndexedDB + LocalStorage con copias de seguridad de bóveda completa.</p>
+
+      <div class="storage-metrics-grid">
+        <div class="storage-metric-card">
+          <div class="metric-icon"><i data-lucide="hard-drive"></i></div>
+          <div class="metric-info">
+            <span class="metric-label">Motor Principal</span>
+            <span class="metric-val" id="metric-db-engine">IndexedDB Activo</span>
+            <span class="metric-sub">Espejo redundante en LocalStorage</span>
+          </div>
+        </div>
+        <div class="storage-metric-card">
+          <div class="metric-icon"><i data-lucide="files"></i></div>
+          <div class="metric-info">
+            <span class="metric-label">Documentos en Bóveda</span>
+            <span class="metric-val" id="metric-docs-count">0 notas</span>
+            <span class="metric-sub" id="metric-docs-size">0 KB estimados</span>
+          </div>
+        </div>
+        <div class="storage-metric-card">
+          <div class="metric-icon"><i data-lucide="history"></i></div>
+          <div class="metric-info">
+            <span class="metric-label">Puntos de Versión</span>
+            <span class="metric-val" id="metric-versions-count">0</span>
+            <span class="metric-sub">Snapshots recuperables</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="storage-actions-panel">
+        <h4><i data-lucide="shield-check"></i> Copia de Seguridad & Portabilidad de la Bóveda</h4>
+        <p class="text-dim" style="font-size:0.8rem;margin:6px 0 14px 0;line-height:1.4;">Exporta todos tus documentos, notas, borradores e historial de versiones en un único archivo JSON de seguridad o impórtalo en cualquier dispositivo.</p>
+        
+        <div class="storage-btn-group">
+          <button class="btn btn-primary" id="btn-export-vault">
+            <i data-lucide="download-cloud"></i> Descargar Bóveda Completa (.json)
+          </button>
+          <label class="btn btn-outline file-upload-label" style="display:inline-flex;margin:0;">
+            <i data-lucide="upload-cloud"></i> Restaurar Bóveda desde (.json)
+            <input type="file" id="vault-import-input" accept=".json" style="display:none;" />
+          </label>
+          <button class="btn btn-action" id="btn-force-checkpoint">
+            <i data-lucide="save"></i> Crear Punto de Control Inmediato
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Contenedor de Notificaciones Toast -->
+  <div class="toast-container" id="toast-container"></div>
+
+  <!-- Scripts de la Aplicación -->
+  <script src="app.js"></script>
+</body>
+</html>

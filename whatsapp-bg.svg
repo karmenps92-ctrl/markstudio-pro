@@ -1,0 +1,75 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="400" height="400" viewBox="0 0 400 400" fill="none">
+  <!-- WhatsApp Dark Chat Doodle Pattern Placeholder -->
+  <g stroke="rgba(255, 255, 255, 0.055)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" fill="none">
+    <!-- Chat bubble 1 -->
+    <path d="M40 50h40a10 10 0 0 1 10 10v20a10 10 0 0 1-10 10H55l-15 12V60a10 10 0 0 1 10-10z" />
+    <circle cx="60" cy="70" r="2" fill="rgba(255, 255, 255, 0.055)" />
+    <circle cx="70" cy="70" r="2" fill="rgba(255, 255, 255, 0.055)" />
+
+    <!-- Coffee mug -->
+    <path d="M150 60h30v25a15 15 0 0 1-30 0V60z" />
+    <path d="M180 65h6a6 6 0 0 1 6 6v4a6 6 0 0 1-6 6h-6" />
+    <path d="M158 52c2-4 0-6 2-10m6 10c2-4 0-6 2-10" />
+
+    <!-- Clock -->
+    <circle cx="280" cy="70" r="16" />
+    <path d="M280 60v10l6 4" />
+
+    <!-- Star -->
+    <path d="M350 50l3 7 8 1-6 5 2 8-7-4-7 4 2-8-6-5 8-1z" />
+
+    <!-- Smartphone -->
+    <rect x="50" y="160" width="26" height="46" rx="4" />
+    <line x1="60" y1="165" x2="66" y2="165" />
+    <circle cx="63" cy="198" r="2" />
+
+    <!-- Music note -->
+    <path d="M140 180v-20l25-5v20" />
+    <circle cx="135" cy="182" r="5" fill="rgba(255, 255, 255, 0.055)" />
+    <circle cx="160" cy="177" r="5" fill="rgba(255, 255, 255, 0.055)" />
+
+    <!-- Game controller -->
+    <rect x="230" y="165" width="46" height="28" rx="8" />
+    <path d="M240 179h8m-4-4v8" />
+    <circle cx="264" cy="176" r="2" fill="rgba(255, 255, 255, 0.055)" />
+    <circle cx="269" cy="182" r="2" fill="rgba(255, 255, 255, 0.055)" />
+
+    <!-- Camera -->
+    <path d="M330 170h10l3-5h14l3 5h10a5 5 0 0 1 5 5v20a5 5 0 0 1-5 5h-40a5 5 0 0 1-5-5v-20a5 5 0 0 1 5-5z" />
+    <circle cx="350" cy="183" r="7" />
+
+    <!-- Heart -->
+    <path d="M60 280c-6-10-18-5-18 5 0 12 18 20 18 20s18-8 18-20c0-10-12-15-18-5z" />
+
+    <!-- Sun / Flower -->
+    <circle cx="150" cy="285" r="9" />
+    <path d="M150 270v4m0 22v4m-15-15h4m22 0h4m-12-10l3 3m10 10l3 3m-16 0l3-3m10-10l3-3" />
+
+    <!-- Search bubble -->
+    <circle cx="250" cy="280" r="12" />
+    <path d="M259 289l8 8" />
+
+    <!-- Location pin -->
+    <path d="M345 270a10 10 0 0 0-10 10c0 8 10 18 10 18s10-10 10-18a10 10 0 0 0-10-10z" />
+    <circle cx="345" cy="280" r="3" fill="rgba(255, 255, 255, 0.055)" />
+
+    <!-- Paper plane -->
+    <path d="M45 355l45-15-20 30-5-10z" />
+    <path d="M70 370l-5-10 25-20" />
+
+    <!-- Padlock (Encryption) -->
+    <rect x="145" y="360" width="22" height="18" rx="3" />
+    <path d="M150 360v-6a6 6 0 0 1 12 0v6" />
+    <circle cx="156" cy="369" r="2" fill="rgba(255, 255, 255, 0.055)" />
+
+    <!-- Lightbulb -->
+    <path d="M245 350a12 12 0 0 1 18 10c0 4-3 7-5 9h-8c-2-2-5-5-5-9a12 12 0 0 1 0-10z" />
+    <line x1="250" y1="373" x2="258" y2="373" />
+
+    <!-- Smiley -->
+    <circle cx="340" cy="365" r="14" />
+    <circle cx="335" cy="362" r="1.5" fill="rgba(255, 255, 255, 0.055)" />
+    <circle cx="345" cy="362" r="1.5" fill="rgba(255, 255, 255, 0.055)" />
+    <path d="M334 369c2 3 10 3 12 0" />
+  </g>
+</svg>
