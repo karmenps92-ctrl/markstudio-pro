@@ -1,44 +1,10 @@
 {
-  "$schema": "https://openapi.vercel.sh/vercel.json",
-  "version": 2,
-  "name": "markstudio-pro",
-  "cleanUrls": true,
-  "trailingSlash": false,
   "rewrites": [
-    {
-      "source": "/home",
-      "destination": "/index.html"
-    },
-    {
-      "source": "/editor",
-      "destination": "/index.html"
-    },
-    {
-      "source": "/app",
-      "destination": "/index.html"
-    },
-    {
-      "source": "/((?!.*\\.).*)",
-      "destination": "/index.html"
-    }
-  ],
-  "headers": [
-    {
-      "source": "/(.*)",
-      "headers": [
-        {
-          "key": "X-Content-Type-Options",
-          "value": "nosniff"
-        },
-        {
-          "key": "X-Frame-Options",
-          "value": "SAMEORIGIN"
-        },
-        {
-          "key": "X-XSS-Protection",
-          "value": "1; mode=block"
-        }
-      ]
-    }
+    { "source": "/home", "destination": "/index.html" },
+    { "source": "/home/:match*", "destination": "/index.html" },
+    { "source": "/mark-studio", "destination": "/index.html" },
+    { "source": "/mark-studio/:match*", "destination": "/index.html" },
+    { "source": "/markstudio-pro", "destination": "/index.html" },
+    { "source": "/markstudio-pro/:match*", "destination": "/index.html" }
   ]
 }
