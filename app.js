@@ -3342,6 +3342,17 @@ Hoy en día, las extensiones modernas permiten que ingenieros, científicos y es
       }
     });
 
+    // Sincronización de URL limpia /home (Vercel & SPA Friendly)
+    try {
+      const currentPath = window.location.pathname;
+      if (currentPath === '/' || currentPath.endsWith('/index.html') || window.location.hash === '#/home') {
+        const basePath = currentPath.includes('/markstudio-pro') ? '/markstudio-pro' : '';
+        window.history.replaceState({ page: 'home' }, '', `${basePath}/home`);
+      }
+    } catch (e) {
+      // Entornos con restricciones de protocolo de archivo
+    }
+
     lucide.createIcons();
     updateCursorPos();
   }

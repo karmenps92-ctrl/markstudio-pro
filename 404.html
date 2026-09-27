@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>MarkStudio Pro</title>
+  <script>
+    // Preservar la ruta de SPA (/home, etc.) y redirigir limpiamente a index.html
+    const path = window.location.pathname;
+    const isGitHubPages = path.includes('/markstudio-pro');
+    const target = isGitHubPages ? '/markstudio-pro/' : '/';
+    window.location.replace(target + (path.includes('home') ? '#/home' : ''));
+  </script>
+</head>
+<body>
+  <p style="font-family: sans-serif; text-align: center; margin-top: 50px; color: #8696a0;">
+    Cargando MarkStudio Pro...
+  </p>
+</body>
+</html>
